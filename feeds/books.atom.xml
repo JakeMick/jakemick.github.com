@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>vector|adventures</title><link href="jakemick.github.com/" rel="alternate"></link><link href="jakemick.github.com/feeds/books.atom.xml" rel="self"></link><id>jakemick.github.com/</id><updated>2012-12-02T14:52:40-06:00</updated><entry><title>Review of Techical Blogging</title><link href="jakemick.github.com/review-of-techical-blogging.html" rel="alternate"></link><updated>2012-12-02T14:52:40-06:00</updated><author><name>Jake Mick</name></author><id>tag:jakemick.github.com,2012-12-02:review-of-techical-blogging.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Techical Blogging: Turn Your Expertise into a Remarkable Online Presence
+<feed xmlns="http://www.w3.org/2005/Atom"><title>vector|adventures</title><link href="jakemick.github.com/" rel="alternate"></link><link href="jakemick.github.com/feeds/books.atom.xml" rel="self"></link><id>jakemick.github.com/</id><updated>2012-12-02T00:00:00-06:00</updated><entry><title>Review of Techical Blogging</title><link href="jakemick.github.com/review-of-techical-blogging.html" rel="alternate"></link><updated>2012-12-02T00:00:00-06:00</updated><author><name>Jake Mick</name></author><id>tag:jakemick.github.com,2012-12-02:review-of-techical-blogging.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Techical Blogging: Turn Your Expertise into a Remarkable Online Presence
 by Antonio Cangiano&lt;/em&gt; is offered by The Pragmatic Bookshelf at &lt;a class="reference external" href="http://pragprog.com/book/actb/technical-blogging/"&gt;PragProg&lt;/a&gt;.&lt;/p&gt;
 &lt;dl class="docutils"&gt;
 &lt;dt&gt;From the site:&lt;/dt&gt;
@@ -11,7 +11,18 @@ regular readers and leverage this popularity to achieve your goals.&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;p&gt;Now that that is out of the way post is primarily aimed at being as
 &lt;strong&gt;meta-edgy&lt;/strong&gt; as I possible can, while abusing &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html"&gt;reStructuredText&lt;/a&gt; and &lt;a class="reference external" href="http://docs.getpelican.com/en/3.0/"&gt;Pelican&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;(Looks great in Vim, btw.)
+.. image:: screenshot.png&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Phew&lt;/em&gt;. So let's get down to the d33ts. I follow a bunch of technical reading
-circles and blogs. I read so much $LaTeX$ that I speak in $\int$.&lt;/p&gt;
+circles and blogs. I read so much $LaTeX$ that I speak in $\int$s, but I
+haven't contribute to much besides some Q/A on StackExchange and r/&lt;a href="#id1"&gt;&lt;span class="problematic" id="id2"&gt;MachineLearning_&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;2013 will the year that this changes. So I downloaded a DRM-Free copy of
+&lt;em&gt;Technical Blogging&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;-- JakeMick&lt;/p&gt;
+&lt;div class="system-messages section"&gt;
+&lt;h2&gt;Docutils System Messages&lt;/h2&gt;
+&lt;div class="system-message" id="id1"&gt;
+&lt;p class="system-message-title"&gt;System Message: ERROR/3 (&lt;tt class="docutils"&gt;/srv/repos/adventures_in_vectors/content/notes_on_technical_blog.rst&lt;/tt&gt;, line 25); &lt;em&gt;&lt;a href="#id2"&gt;backlink&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+Unknown target name: &amp;quot;machinelearning&amp;quot;.&lt;/div&gt;
+&lt;/div&gt;
 </summary><category term="books"></category><category term="blogging"></category><category term="writing"></category></entry></feed>
