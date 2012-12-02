@@ -40,8 +40,8 @@ regular readers and leverage this popularity to achieve your goals.&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;p&gt;Now that that is out of the way post is primarily aimed at being as
 &lt;strong&gt;meta-edgy&lt;/strong&gt; as I possible can, while abusing &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html"&gt;reStructuredText&lt;/a&gt; and &lt;a class="reference external" href="http://docs.getpelican.com/en/3.0/"&gt;Pelican&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;(Looks great in Vim, btw.)
-.. image:: screenshot.png&lt;/p&gt;
+&lt;p&gt;(Looks great in Vim, btw.)&lt;/p&gt;
+&lt;img alt="screenshot.png" class="align-right" src="screenshot.png" /&gt;
 &lt;p&gt;&lt;em&gt;Phew&lt;/em&gt;. So let's get down to the d33ts. I follow a bunch of technical reading
 circles and blogs. I read so much $LaTeX$ that I speak in $\int$s, but I
 haven't contribute to much besides some Q/A on StackExchange and r/&lt;a href="#id1"&gt;&lt;span class="problematic" id="id2"&gt;MachineLearning_&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
@@ -51,7 +51,7 @@ haven't contribute to much besides some Q/A on StackExchange and r/&lt;a href="#
 &lt;div class="system-messages section"&gt;
 &lt;h2&gt;Docutils System Messages&lt;/h2&gt;
 &lt;div class="system-message" id="id1"&gt;
-&lt;p class="system-message-title"&gt;System Message: ERROR/3 (&lt;tt class="docutils"&gt;/srv/repos/adventures_in_vectors/content/notes_on_technical_blog.rst&lt;/tt&gt;, line 25); &lt;em&gt;&lt;a href="#id2"&gt;backlink&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p class="system-message-title"&gt;System Message: ERROR/3 (&lt;tt class="docutils"&gt;/srv/repos/adventures_in_vectors/content/notes_on_technical_blog.rst&lt;/tt&gt;, line 27); &lt;em&gt;&lt;a href="#id2"&gt;backlink&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 Unknown target name: &amp;quot;machinelearning&amp;quot;.&lt;/div&gt;
 &lt;/div&gt;
 </summary><category term="books"></category><category term="blogging"></category><category term="writing"></category></entry></feed>
