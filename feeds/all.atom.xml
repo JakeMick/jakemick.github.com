@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>vector|adventures</title><link href="jakemick.github.com/" rel="alternate"></link><link href="jakemick.github.com/feeds/all.atom.xml" rel="self"></link><id>jakemick.github.com/</id><updated>2012-12-02T00:00:00-06:00</updated><entry><title>Most popular days to shop for a car</title><link href="jakemick.github.com/most-popular-days-to-shop-for-a-car.html" rel="alternate"></link><updated>2012-12-02T00:00:00-06:00</updated><author><name>Jake Mick</name></author><id>tag:jakemick.github.com,2012-12-02:most-popular-days-to-shop-for-a-car.html</id><summary type="html">&lt;p&gt;A car is a big purchase. Few of us buy one on an impulse. You decide that
+<feed xmlns="http://www.w3.org/2005/Atom"><title>vector|adventures</title><link href="jakemick.github.com/" rel="alternate"></link><link href="jakemick.github.com/feeds/all.atom.xml" rel="self"></link><id>jakemick.github.com/</id><updated>2012-12-02T00:00:00-06:00</updated><entry><title>Great Book on Blogging: Techical Blogging</title><link href="jakemick.github.com/great-book-on-blogging-techical-blogging.html" rel="alternate"></link><updated>2012-12-02T00:00:00-06:00</updated><author><name>Jake Mick</name></author><id>tag:jakemick.github.com,2012-12-02:great-book-on-blogging-techical-blogging.html</id><summary type="html">&lt;p&gt;I follow a bunch of technical reading circles and blogs. I read so much
+$LaTeX$ that I speak in $\int$s. Sadly though, I haven't contributed much
+besides some Q/A on StackExchange and technical subreddits.&lt;/p&gt;
+&lt;p&gt;2013 will the year that this changes. So I downloaded a copy of
+&lt;em&gt;Technical Blogging.&lt;/em&gt; It has been a joy to read. The book is written in a style
+similar to the documentation surrounding a programming framework, which is really
+no surprise given what the publisher had to say:&lt;/p&gt;
+&lt;div class="system-message"&gt;
+&lt;p class="system-message-title"&gt;System Message: ERROR/3 (&lt;tt class="docutils"&gt;/srv/repos/adventures_in_vectors/content/notes_on_technical_blog.rst&lt;/tt&gt;, line 17)&lt;/p&gt;
+Unexpected indentation.&lt;/div&gt;
+&lt;blockquote&gt;
+Technical Blogging is the first book to specifically teach programmers,
+technical people, and technically-oriented entrepreneurs how to become
+successful bloggers. There is no magic to successful blogging; with this book
+you’ll learn the techniques to attract and keep a large audience of loyal,
+regular readers and leverage this popularity to achieve your goals.&lt;/blockquote&gt;
+&lt;p&gt;Now that that is out of the way, the rest of this post is aimed at being as
+&lt;strong&gt;meta-edgy&lt;/strong&gt; as I possible can, abusing &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html"&gt;reStructuredText&lt;/a&gt; and &lt;a class="reference external" href="http://docs.getpelican.com/en/3.0/"&gt;Pelican&lt;/a&gt; while
+writing a review of &lt;em&gt;Technical Blogging&lt;/em&gt; on a technical blog.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Phew&lt;/em&gt;. So let's get down to the d33ts.&lt;/p&gt;
+&lt;p&gt;The book starts off with a solid introduction establishing the purpose of blogging,
+&amp;quot;Blogging isn't dead, it is a ... Here's how this book fits in ...&amp;quot;&lt;/p&gt;
+&lt;p&gt;The chapters that follow are self-contained units that encourage you to answer questions
+about the blog idea you have in mind. The author suggests writing down a plan of action
+as you parse the book.&lt;/p&gt;
+&lt;p&gt;The chapters give you advice on WordPress then go on to give Dos-and-Donts
+about SEO, content creation, post consistency, reading Analytics, building a
+following, blog-growth and so on.&lt;/p&gt;
+&lt;p&gt;From the title I had expected a book focused on writing, but it is a small fraction
+of the book. The author agrees that content is the most important aspect of a blog
+but much of the book is devoted to all of the things surrounding a blog.&lt;/p&gt;
+&lt;p&gt;The book is imbues a fascinating mindset to approach blogging. I hadn't expected
+to come across a section on pay-scale for bloggers or job boards. It's like I'm
+reading something I shouldn't be allowed to see.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Techical Blogging: Turn Your Expertise into a Remarkable Online Presence
+by Antonio Cangiano&lt;/em&gt; is offered by The Pragmatic Bookshelf at &lt;a class="reference external" href="http://pragprog.com/book/actb/technical-blogging/"&gt;PragProg&lt;/a&gt;. I
+would definitely recommend the book to anyone interested in blogging.&lt;/p&gt;
+&lt;p&gt;(BTW, reStructuredText looks sweet in Vim.)&lt;/p&gt;
+&lt;img alt="screenshot.png" class="align-right" src="screenshot.png" /&gt;
+&lt;p&gt;-- JakeMick&lt;/p&gt;
+</summary><category term="books"></category><category term="blogging"></category><category term="writing"></category></entry><entry><title>Most popular days to shop for a car</title><link href="jakemick.github.com/most-popular-days-to-shop-for-a-car.html" rel="alternate"></link><updated>2012-12-02T00:00:00-06:00</updated><author><name>Jake Mick</name></author><id>tag:jakemick.github.com,2012-12-02:most-popular-days-to-shop-for-a-car.html</id><summary type="html">&lt;p&gt;A car is a big purchase. Few of us buy one on an impulse. You decide that
 you're going to buy a car, you narrow it down to a few models and you're
 almost ready to pull the trigger when you get a massive salary bump.&lt;/p&gt;
 &lt;p&gt;You call your wife to tell her. She informs you that your daughter needs
@@ -28,42 +68,4 @@ U.S. households. How likely you are to purchase a car depends on many factors,
 but these factors come in monthly trends.&lt;/p&gt;
 &lt;p&gt;See you on the 10th. -- JakeMick&lt;/p&gt;
 &lt;/div&gt;
-</summary><category term="visualization"></category><category term="data"></category><category term="cars"></category></entry><entry><title>Review of Techical Blogging</title><link href="jakemick.github.com/review-of-techical-blogging.html" rel="alternate"></link><updated>2012-12-02T00:00:00-06:00</updated><author><name>Jake Mick</name></author><id>tag:jakemick.github.com,2012-12-02:review-of-techical-blogging.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;POST IN PROGRESS&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;I follow a bunch of technical reading circles and blogs. I read so much
-$LaTeX$ that I speak in $\int$s. Sadly thought I haven't contributed much
-besides some Q/A on StackExchange and some technical subreddits.&lt;/p&gt;
-&lt;p&gt;2013 will the year that this changes. So I downloaded a copy of
-&lt;em&gt;Technical Blogging.&lt;/em&gt; It has been a joy to read. The book is written in a style
-similar to the documentation surrounding a programming framework.&lt;/p&gt;
-&lt;p&gt;The book starts off with a solid introduction establishing the purpose of blogging,
-&amp;quot;Blogging isn't dead, it is a ... Here's how this book fits in...&amp;quot;&lt;/p&gt;
-&lt;dl class="docutils"&gt;
-&lt;dt&gt;From the site:&lt;/dt&gt;
-&lt;dd&gt;Technical Blogging is the first book to specifically teach programmers,
-technical people, and technically-oriented entrepreneurs how to become
-successful bloggers. There is no magic to successful blogging; with this book
-you’ll learn the techniques to attract and keep a large audience of loyal,
-regular readers and leverage this popularity to achieve your goals.&lt;/dd&gt;
-&lt;/dl&gt;
-&lt;p&gt;Now that that is out of the way, the rest of this post is aimed at being as
-&lt;strong&gt;meta-edgy&lt;/strong&gt; as I possible can, abusing &lt;a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html"&gt;reStructuredText&lt;/a&gt; and &lt;a class="reference external" href="http://docs.getpelican.com/en/3.0/"&gt;Pelican&lt;/a&gt; while
-writing a review of &lt;em&gt;Technical Blogging&lt;/em&gt; on a technical blog.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Phew&lt;/em&gt;. So let's get down to the d33ts.&lt;/p&gt;
-&lt;p&gt;The chapters that follow are self-contained units implicitly forcing you to answer questions
-while concretizing the blog idea you have in mind. The author suggests writing down a plan of action
-as you parse the book.&lt;/p&gt;
-&lt;p&gt;The chapters give you advice on WordPress then go on to
-give Dos-and-Donts about SEO, content creation, post consistency, reading Analytics,
-building a following, blog-growth and so on.&lt;/p&gt;
-&lt;p&gt;From the title I had expected a book focused on writing, but it is a small fraction
-of the book. The author agrees that content is the most important aspect of a blog
-but much of the book is devoted to all of the things surrounding a blog.&lt;/p&gt;
-&lt;p&gt;The book is imbues a fascinating mindset to approach blogging. I hadn't expected
-to come across a section on pay-scale for bloggers or job boards. It's like I'm
-reading something I shouldn't be allowed to see.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Techical Blogging: Turn Your Expertise into a Remarkable Online Presence
-by Antonio Cangiano&lt;/em&gt; is offered by The Pragmatic Bookshelf at &lt;a class="reference external" href="http://pragprog.com/book/actb/technical-blogging/"&gt;PragProg&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;(BTW, reStructuredText looks sweet in Vim.)&lt;/p&gt;
-&lt;img alt="screenshot.png" class="align-right" src="screenshot.png" /&gt;
-&lt;p&gt;-- JakeMick&lt;/p&gt;
-</summary><category term="books"></category><category term="blogging"></category><category term="writing"></category></entry></feed>
+</summary><category term="visualization"></category><category term="data"></category><category term="cars"></category></entry></feed>
