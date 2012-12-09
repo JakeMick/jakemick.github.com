@@ -48,6 +48,8 @@
             
             <li ><a href=".././category/cars.html">cars</a></li>
             
+            <li ><a href=".././category/data.html">data</a></li>
+            
         </ul></nav>
         </header><!-- /#banner -->
                 
@@ -58,8 +60,158 @@
         
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href=".././great-book-on-blogging-techical-blogging.html">Great Book on Blogging: Techical Blogging</a></h1> 
+                    <h1 class="entry-title"><a href=".././deleting-support-vectors-i-made-a-stupid-argument-on-the-internet.html">Deleting Support Vectors: I made a stupid argument on the internet</a></h1> 
                     <footer class="post-info">
+        <abbr class="published" title="2012-12-02T00:00:00">
+                Sun 02 December 2012
+        </abbr>
+
+        
+        <address class="vcard author">
+                By <a class="url fn" href=".././author/jake-mick.html">Jake Mick</a>
+        </address>
+        
+<p>In <a href=".././category/data.html">data</a>. </p>
+<p>tags: <a href=".././tag/visualization.html">visualization</a><a href=".././tag/data.html">data</a><a href=".././tag/python.html">python</a></p>
+
+
+</footer><!-- /.post-info --><div class="section" id="the-question-posed">
+<h2>The question posed</h2>
+<p>In r/MachineLearning</p>
+<p>User kripaks asked</p>
+<blockquote>
+Lets say I trained an SVM model on some training data. I then remove the
+support vectors from the training data and re-train the model. The new model
+will have new support vectors. But, what all has changed in this new model? Can
+I confidently say that the new model performs worse than the previous one?</blockquote>
+<p>Obviously this isn't the best idea. The support vectors define the max-margin
+used by the SVM. Deleting them is censoring your most valuable evidence.</p>
+<p>Now what actually happens to the hyperplane when you delete the support vectors?
+The margin must get wider, that's a given. But how dramatically could you make
+the angle change in $t+1$ from $t$ given the most pathological data for a linear kernel?</p>
+<p>Turns out, not very much. I figured a multivariate Gaussian XOR
+data set would be a perfect edge-case. It also isn't that ridiculous of a real
+world data set. My thought was that the support vectors would be defined by
+the smaller end of the Gaussian tail. Those would be deleted, and the hyperplane
+would play Twister in front of my eyes. <em>I was definitely wrong.</em></p>
+<p>This is by no means a formal proof, but repeatedly running it couldn't get the
+hyperplane to tilt.</p>
+<p>The bigger points are the support vectors, the smaller is the rest of the data.
+The blue line is the separating hyperplane.</p>
+<img alt="one_svm_xor.png" class="align-right" src="../static/one_svm_xor.png" />
+<p>Most of the points are support vectors.</p>
+<img alt="two_svm_xor.png" class="align-right" src="../static/two_svm_xor.png" />
+<p>Bam. Same hyperplane.</p>
+<img alt="three_svm_xor.png" class="align-right" src="../static/three_svm_xor.png" />
+<img alt="four_svm_xor.png" class="align-right" src="../static/four_svm_xor.png" />
+<img alt="five_svm_xor.png" src="../static/five_svm_xor.png" />
+<p>Repeating this over and over with randomly generated XOR data didn't change it.
+Turns out that the soft margin is pretty robust to data censoring
+in cases that are directly pathological to how the hyperplane is formed. It
+digs a trough in the margin.</p>
+<p>The code for those interested.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="k">def</span> <span class="nf">generate_xor</span><span class="p">(</span><span class="n">total_points</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">variance</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generates XOR classification data with bimodal multivariate Gaussians</span>
+<span class="sd">    for each class.</span>
+
+<span class="sd">    Takes two parameters.</span>
+
+<span class="sd">        total_points : how many data points for each Gaussian. 4x this number</span>
+<span class="sd">            will be the total observations.</span>
+
+<span class="sd">        variance : dispersion of the data points</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mgc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="p">[[</span><span class="n">variance</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">variance</span><span class="p">]],</span> <span class="n">total_points</span><span class="p">)</span>
+    <span class="n">X_class_one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">mgc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">mgc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">X_class_two</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">mgc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">mgc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">Y_class_one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">total_points</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">Y_class_two</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">total_points</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">X_class_one</span><span class="p">,</span> <span class="n">X_class_two</span><span class="p">))</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Y_class_one</span><span class="p">,</span> <span class="n">Y_class_two</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
+
+
+<span class="k">def</span> <span class="nf">generate_svm_decision_info</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Given data points and labels returns the SVM&#39;s decision function,</span>
+<span class="sd">    along with the indices of the support vectors, x indices and y indices for</span>
+<span class="sd">    plotting purposes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s">&#39;linear&#39;</span><span class="p">,</span> <span class="n">shrinking</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                <span class="n">tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">cache_size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">class_weight</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="n">xind</span><span class="p">,</span> <span class="n">yind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">500</span><span class="p">),</span>
+                            <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">500</span><span class="p">))</span>
+    <span class="n">dec</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xind</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yind</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+    <span class="n">dec</span> <span class="o">=</span> <span class="n">dec</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xind</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dec</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">support_</span><span class="p">,</span> <span class="n">xind</span><span class="p">,</span> <span class="n">yind</span>
+
+
+<span class="k">def</span> <span class="nf">go_through</span><span class="p">():</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">generate_xor</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+        <span class="n">decision</span><span class="p">,</span> <span class="n">support_indices</span><span class="p">,</span> <span class="n">xnew</span><span class="p">,</span> <span class="n">ynew</span> <span class="o">=</span> \
+            <span class="n">generate_svm_decision_info</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">xind</span><span class="p">,</span> <span class="n">yind</span> <span class="o">=</span> <span class="n">xnew</span><span class="p">,</span> <span class="n">ynew</span>
+        <span class="n">decision_surface_plotter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">decision</span><span class="p">,</span> <span class="n">support_indices</span><span class="p">,</span> <span class="n">xind</span><span class="p">,</span> <span class="n">yind</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">support_indices</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">support_indices</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">decision_surface_plotter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">support_indices</span><span class="p">,</span> <span class="n">xind</span><span class="p">,</span> <span class="n">yind</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dec</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="n">xind</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">xind</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+                <span class="n">yind</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">yind</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span> <span class="n">aspect</span><span class="o">=</span><span class="s">&#39;auto&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">&#39;lower&#39;</span><span class="p">,</span>
+                <span class="n">cmap</span><span class="o">=</span><span class="s">&#39;PiYG&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xind</span><span class="p">,</span> <span class="n">yind</span><span class="p">,</span> <span class="n">dec</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="s">&#39;--&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&#39;RdGy&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">support_indices</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">support_indices</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">support_indices</span><span class="p">]</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&#39;BrBG&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&#39;D&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">X</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">go_through</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+<p>-- JakeMick</p>
+</div>
+
+                </article>
+                
+            </aside><!-- /#featured -->
+            
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+            
+        
+        
+        
+            
+
+        
+         
+            
+            <li><article class="hentry">    
+                <header>
+                    <h1><a href=".././great-book-on-blogging-techical-blogging.html" rel="bookmark"
+                           title="Permalink to Great Book on Blogging: Techical Blogging">Great Book on Blogging: Techical Blogging</a></h1>
+                </header>
+                
+                <div class="entry-content">
+                <footer class="post-info">
         <abbr class="published" title="2012-12-02T00:00:00">
                 Sun 02 December 2012
         </abbr>
@@ -73,55 +225,15 @@
 <p>tags: <a href=".././tag/books.html">books</a><a href=".././tag/blogging.html">blogging</a><a href=".././tag/writing.html">writing</a></p>
 
 
-</footer><!-- /.post-info --><p>I follow a bunch of technical reading circles and blogs. I read so much
+</footer><!-- /.post-info -->
+                <p>I follow a bunch of technical reading circles and blogs. I read so much
 $LaTeX$ that I speak in $\int$s. Sadly though, I haven't contributed much
 besides some questions and answers on StackExchange and technical subreddits.</p>
-<p>2013 will be the year that this changes. I downloaded a copy of
-<em>Technical Blogging.</em> It has been a joy to read. The book is written in a style
-similar to the documentation surrounding a programming framework or library.</p>
-<dl class="docutils">
-<dt>That came as no surprise given what the publisher had to say:</dt>
-<dd>Technical Blogging is the first book to specifically teach programmers,
-technical people, and technically-oriented entrepreneurs how to become
-successful bloggers. There is no magic to successful blogging; with this book
-you’ll learn the techniques to attract and keep a large audience of loyal,
-regular readers and leverage this popularity to achieve your goals.</dd>
-</dl>
-<p>Now that that is out of the way, the rest of this post is aimed at being as
-<strong>meta-edgy</strong> as I possible can, abusing <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">reStructuredText</a> and <a class="reference external" href="http://docs.getpelican.com/en/3.0/">Pelican</a> while
-writing a review of <em>Technical Blogging</em> on a technical blog.</p>
-<p><em>Phew</em>. So let's get down to the d33ts.</p>
-<p>The book starts off with a solid introduction establishing the purpose of blogging,
-going on to say, &quot;Blogging isn't dead ... Blogging is ... Here's how this book fits in ...&quot;</p>
-<p>The chapters that follow are self-contained units that encourage you to answer questions
-about the blog idea you have in mind. The author suggests writing down a plan of action
-as you parse the book.</p>
-<p>The chapters give you advice on WordPress then go on to give Dos-and-Donts
-about SEO, content creation, post consistency, reading Google Analytics, building a
-following, growing your blog and so on.</p>
-<p>From the title I had expected the book to be focused on writing, but it is a small fraction
-of the book. The author agrees that content is the most important aspect of a blog
-but most of the book is devoted to the details surrounding a blog.</p>
-<p>The book is imbues a fascinating mindset to approach blogging. I hadn't expected
-to come across a section on pay-scale for bloggers or job boards. It's like I'm
-reading something I shouldn't be allowed to see.</p>
-<p><em>Techical Blogging: Turn Your Expertise into a Remarkable Online Presence
-by Antonio Cangiano</em> is offered by The Pragmatic Bookshelf at <a class="reference external" href="http://pragprog.com/book/actb/technical-blogging/">PragProg</a>. I
-would definitely recommend the book to anyone interested in blogging.</p>
-<p>(BTW, reStructuredText looks sweet in Vim.)</p>
-<img alt="screenshot.png" class="align-right" src="../static/screenshot.png" />
-<p>-- JakeMick</p>
-
-                </article>
+<p>2013 will be the year that this changes. I downloaded a copy ...</p>
+                <a class="readmore" href=".././great-book-on-blogging-techical-blogging.html">read more</a>
                 
-            </aside><!-- /#featured -->
-            
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-            
-        
+                </div><!-- /.entry-content -->
+            </article></li>
         
         
             
