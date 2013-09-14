@@ -56,7 +56,7 @@
                 By <a class="url fn" href="./author/jake-mick.html">Jake Mick</a>
         </address>
         <p>In <a href="./category/data.html">data</a>. </p>
-<p>tags: <a href="./tag/time-series.html">time-series</a><a href="./tag/data.html">data</a><a href="./tag/python.html">python</a></p></footer><!-- /.post-info -->      <div class="section" id="problem-setting">
+<p>tags: <a href="./tag/time-series.html">time-series</a><a href="./tag/data.html">data</a><a href="./tag/python.html">python</a></p></footer><!-- /.post-info -->      <html><body><div class="section" id="problem-setting">
 <h2>Problem setting</h2>
 <p>A time series is a ordered set of observations. The observations occur at fixed
 intervals. Many phenomena are thought of as time series. A few obvious examples
@@ -69,13 +69,13 @@ be thought of as time series.</p>
 <p>Consider the eponymous coin-flip. $P(tails) = P(heads) = 1/2$. Suppose we kept
 a running tally of heads - tails, over 100,000 coin-flips. One such realization
 of the tally is below.</p>
-<img alt="static/random_walk_bin.png" class="align-right" src="static/random_walk_bin.png" />
+<img alt="" class="align-right" src="static/random_walk_bin.png" style="width: 1260px; height: auto; max-width: 100%;"/>
 <p>More formally, the coin-flip is $X sim Bin(1, 0.5)$ and the tally is
 $W_t = sumlimits_{i=1}^t x_i$</p>
 <p>The underlying process is termed a <strong>random walk</strong>. It is the simplest example,
 as measured by the code golf needed to produce it. A random walk can come
 from any distributions. A realization of a random walk on $X sim N(0, 1)$ is below.</p>
-<img alt="static/random_walk_norm.png" class="align-right" src="static/random_walk_norm.png" />
+<img alt="" class="align-right" src="static/random_walk_norm.png" style="width: 1260px; height: auto; max-width: 100%;"/>
 <p>In this introductory text we will only deal with Markov random walks, ones in which
 $W_t$ depends only on $W_t-1$. This simplifies the analysis, but be aware that
 the literature on random walks travels very far from this text. Other interesting
@@ -91,22 +91,22 @@ text.</p>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
     <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="n">walk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">,</span> <span class="s">'k'</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Heads - Tails&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Coin-Flipping&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Fixed time intervals"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Heads - Tails"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Random Walk of Coin-Flipping"</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">random_walk_norm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
     <span class="n">walk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">,</span> <span class="s">'k'</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Normal Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Fixed time intervals"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Value"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Random Walk of Normal Distribution"</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -130,9 +130,9 @@ $mu = 0, sigma = 1$ we have $W_2 sim N(0, 2timessigma)$. More generally
 $W_t sim N(0, ttimessigma)$.</p>
 <p>We can empiricize these results using the random number generator.</p>
 <p>Shown below are 50 realizations of a Gaussian walk, plotted with +/-2.5 sqrt(t)</p>
-<img alt="static/random_walk_50.png" class="align-right" src="static/random_walk_50.png" />
+<img alt="" class="align-right" src="static/random_walk_50.png" style="width: 1260px; height: auto; max-width: 100%;"/>
 <p>Shown below are boxplots of 1000 realizations of a 1001 step Gaussian walk</p>
-<img alt="static/random_walk_boxplot.png" class="align-right" src="static/random_walk_boxplot.png" />
+<img alt="" class="align-right" src="static/random_walk_boxplot.png" style="width: 1260px; height: auto; max-width: 100%;"/>
 <p>The important realizations are that though the mean value of the walk is 0,
 the variance is unbounded. An unbounded variance is an undesirable property
 in time series analysis. In the next section we'll learn how to recitify this
@@ -142,14 +142,14 @@ behavior in the random walk case.</p>
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;50 Random Walks on a Normal Distribution&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"50 Random Walks on a Normal Distribution"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Fixed time intervals"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Value"</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)),</span> <span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)),</span> <span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)),</span> <span class="s">'k'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)),</span> <span class="s">'k'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Normal Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Random Walk of Normal Distribution"</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">w</span><span class="p">[:,</span> <span class="p">::</span><span class="mi">100</span><span class="p">],</span> <span class="n">bootstrap</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)[::</span><span class="mi">100</span><span class="p">])</span>
@@ -234,12 +234,12 @@ are a simple loop.</p>
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">go_through</span><span class="p">()</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 <p>-- JakeMick</p>
 </div>
-
+</body></html>
     </div><!-- /.entry-content -->
     
   </article>
