@@ -69,13 +69,13 @@ be thought of as time series.</p>
 <p>Consider the eponymous coin-flip. $P(tails) = P(heads) = 1/2$. Suppose we kept
 a running tally of heads - tails, over 100,000 coin-flips. One such realization
 of the tally is below.</p>
-<img alt="random_walk_bin.png" class="align-right" src="random_walk_bin.png" />
+<img alt="static/random_walk_bin.png" class="align-right" src="static/random_walk_bin.png" />
 <p>More formally, the coin-flip is $X sim Bin(1, 0.5)$ and the tally is
 $W_t = sumlimits_{i=1}^t x_i$</p>
 <p>The underlying process is termed a <strong>random walk</strong>. It is the simplest example,
 as measured by the code golf needed to produce it. A random walk can come
 from any distributions. A realization of a random walk on $X sim N(0, 1)$ is below.</p>
-<img alt="random_walk_norm.png" class="align-right" src="random_walk_norm.png" />
+<img alt="static/random_walk_norm.png" class="align-right" src="static/random_walk_norm.png" />
 <p>In this introductory text we will only deal with Markov random walks, ones in which
 $W_t$ depends only on $W_t-1$. This simplifies the analysis, but be aware that
 the literature on random walks travels very far from this text. Other interesting
@@ -132,7 +132,7 @@ $W_t sim N(0, ttimessigma)$.</p>
 <p>Shown below are 50 realizations of a Gaussian walk, plotted with +/-2.5 sqrt(t)</p>
 <img alt="static/random_walk_50.png" class="align-right" src="static/random_walk_50.png" />
 <p>Shown below are boxplots of 1000 realizations of a 1001 step Gaussian walk</p>
-<img alt="random_walk_boxplot.png" class="align-right" src="random_walk_boxplot.png" />
+<img alt="static/random_walk_boxplot.png" class="align-right" src="static/random_walk_boxplot.png" />
 <p>The important realizations are that though the mean value of the walk is 0,
 the variance is unbounded. An unbounded variance is an undesirable property
 in time series analysis. In the next section we'll learn how to recitify this
