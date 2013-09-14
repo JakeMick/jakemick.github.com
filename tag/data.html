@@ -3,12 +3,8 @@
     <head>
         <title>vector|adventures - data</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href=".././theme/css/main.css" type="text/css" />
-        
-        <link href="jakemick.github.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="vector|adventures Atom Feed" />
-        
-        
-        <!-- Yanked from http://www.ceremade.dauphine.fr/~amic/en/blog/mathjax-and-pelican.html -->
+        <link rel="stylesheet" href="../theme/css/main.css" type="text/css" />
+                        <!-- Yanked from http://www.ceremade.dauphine.fr/~amic/en/blog/mathjax-and-pelican.html -->
         <!-- Using MathJax, with the delimiters $ -->
         <!-- Conflict with pygments for the .mo and .mi -->
         <script type="text/x-mathjax-config">
@@ -26,109 +22,232 @@
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
         <!--[if lte IE 7]>
-        <link rel="stylesheet" type="text/css" media="all" href=".././css/ie.css"/>
-        <script src=".././js/IE8.js" type="text/javascript"></script><![endif]-->
+        <link rel="stylesheet" type="text/css" media="all" href="../css/ie.css"/>
+        <script src="../js/IE8.js" type="text/javascript"></script><![endif]-->
 
         <!--[if lt IE 7]>
-        <link rel="stylesheet" type="text/css" media="all" href=".././css/ie6.css"/><![endif]-->
+        <link rel="stylesheet" type="text/css" media="all" href="../css/ie6.css"/><![endif]-->
 
     </head>
 
     <body id="index" class="home">
-        
-        <header id="banner" class="body">
-        <h1><a href="../.">vector|adventures </a></h1>
+                <header id="banner" class="body">
+        <h1><a href="..">vector|adventures </a></h1>
         <nav><ul>
-            
-            
-            
-            
-            
-            <li ><a href=".././category/books.html">books</a></li>
-            
-            <li ><a href=".././category/cars.html">cars</a></li>
-            
-            <li ><a href=".././category/data.html">data</a></li>
-            
-        </ul></nav>
+                                                                        <li ><a href="../category/books.html">books</a></li>
+                        <li ><a href="../category/data.html">data</a></li>
+                    </ul></nav>
         </header><!-- /#banner -->
                 
-
             
 
-        
-        
-            <aside id="featured" class="body">
+                            <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href=".././most-popular-days-to-shop-for-a-car.html">Most popular days to shop for a car</a></h1> 
+                    <h1 class="entry-title"><a href="../time-series-part-1-an-introduction.html">Time Series: Part 1. An Introduction</a></h1> 
                     <footer class="post-info">
-        <abbr class="published" title="2012-12-02T00:00:00">
-                Sun 02 December 2012
+        <abbr class="published" title="2013-09-08T00:00:00">
+                Sun 08 September 2013
         </abbr>
 
-        
-        <address class="vcard author">
-                By <a class="url fn" href=".././author/jake-mick.html">Jake Mick</a>
+                <address class="vcard author">
+                By <a class="url fn" href="../author/jake-mick.html">Jake Mick</a>
         </address>
-        
-<p>In <a href=".././category/cars.html">cars</a>. </p>
-<p>tags: <a href=".././tag/visualization.html">visualization</a><a href=".././tag/data.html">data</a><a href=".././tag/cars.html">cars</a></p>
-
-
-</footer><!-- /.post-info --><div class="section" id="disclaimer">
-<h2>DISCLAIMER:</h2>
-<p>This data is fabricated. I wrote this to show off my writing and plotting skills.</p>
-<p>A car is a big purchase. Few of us buy one on an impulse. You decide that
-you're going to buy a car, you narrow it down to a few models and you're
-almost ready to pull the trigger when you get a massive salary bump.</p>
-<p>You call your wife to tell her. She informs you that your daughter needs
-braces and your dog went through your savings on online Poker. (Screenname: d3vil_Bernard2004)</p>
-<p>Ye olde cocktail napkin reveals that you're still up $290/month. The BMW in the back
-of your head through lunch seems within reach.</p>
-<p>Life is crazy. Your budget oscillates wildly, but you have to pull the trigger
-before the Fiesta dies in rush-hour.</p>
+        <p>In <a href="../category/data.html">data</a>. </p>
+<p>tags: <a href="../tag/time-series.html">time-series</a><a href="../tag/data.html">data</a><a href="../tag/python.html">python</a></p></footer><!-- /.post-info --><div class="section" id="problem-setting">
+<h2>Problem setting</h2>
+<p>A time series is a ordered set of observations. The observations occur at fixed
+intervals. Many phenomena are thought of as time series. A few obvious examples
+are gross domestic product, the stock price of Apple, electrical current through
+a resistor and Yosemite's Geyser eruptions. Less obviously, audio and text can
+be thought of as time series.</p>
 </div>
-<div class="section" id="the-chaos">
-<h2>The Chaos</h2>
-<p>This post is our attempt to explore the trends in the chaos of U.S. budgets for
-new cars.</p>
-<img alt="car-sale-daily.png" class="align-right" src="../static/car-sale-daily.png" />
-<p>The magenta line is the 100,000's of car sales we processed each day in 2011.
-Sales jumps up and down consistently depending on where we on in a month.
-There doesn't appear to be a trend for different seasons.</p>
-<img alt="car-sale-daily-trend.png" class="align-right" src="../static/car-sale-daily-trend.png" />
-<p>Looking just at the trend it becomes apparent that the there is a massive
-200,000+ swing in sales that takes place through the month.</p>
-<img alt="car-sale-daily-trend-monthy.png" class="align-right" src="../static/car-sale-daily-trend-monthy.png" />
-<p>We can zoom in on the trend for a given month. Right around the 10th there's
-a spike in sales. Followed by a slow decline to the low around the 25th. On
-average our customers sign their leases half-way between billing cycles.</p>
-<p>See? The chaos alluded to at the top of this post is cyclical for
-U.S. households. How likely you are to purchase a car depends on many factors,
-but these factors come in monthly trends.</p>
-<p>See you on the 10th. -- JakeMick</p>
-</div>
+<div class="section" id="random-walk-part-one">
+<h2>Random Walk Part One</h2>
+<p>Consider the eponymous coin-flip. $P(tails) = P(heads) = 1/2$. Suppose we kept
+a running tally of heads - tails, over 100,000 coin-flips. One such realization
+of the tally is below.</p>
+<img alt="random_walk_bin.png" class="align-right" src="random_walk_bin.png" />
+<p>More formally, the coin-flip is $X sim Bin(1, 0.5)$ and the tally is
+$W_t = sumlimits_{i=1}^t x_i$</p>
+<p>The underlying process is termed a <strong>random walk</strong>. It is the simplest example,
+as measured by the code golf needed to produce it. A random walk can come
+from any distributions. A realization of a random walk on $X sim N(0, 1)$ is below.</p>
+<img alt="random_walk_norm.png" class="align-right" src="random_walk_norm.png" />
+<p>In this introductory text we will only deal with Markov random walks, ones in which
+$W_t$ depends only on $W_t-1$. This simplifies the analysis, but be aware that
+the literature on random walks travels very far from this text. Other interesting
+properties can be imbued into a random walk that are outside the scope of this
+text.</p>
+<p>The code used to produce the above plots is below.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
+
+<span class="k">def</span> <span class="nf">random_walk_bin</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">walk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Heads - Tails&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Coin-Flipping&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">random_walk_norm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">walk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Normal Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="what-is-a-time-series">
+<h2>What is a Time Series?</h2>
+<p>Stepping back for a moment note that our walk $W$ is indexed by time point $t$.
+It is the case for all time series that $t in T subset R$. However, if
+$t in T notsubset R$ then other theory and models are needed. An interesting
+case outside the scope of this discussion arises when $t in T subset R^2$,
+which is useful for spatial analysis. Models of this class can be useful in
+predict house prices based on latitude and longitude. Spatial analysis is
+distinct from time series by the index vector, not the shape of the data. For
+example, if we have a collection of correlated walks, we would model them by
+multivariate time series methods.</p>
+</div>
+<div class="section" id="random-walk-part-two">
+<h2>Random Walk Part Two</h2>
+<p>Random walks are easily studied phenomena. Suppose we have a $W$ on $N(mu, sigma)$.
+$W_1 sim N(mu, sigma)$ and $W_2 sim N(mu + mu, sigma + sigma)$. In the case
+$mu = 0, sigma = 1$ we have $W_2 sim N(0, 2timessigma)$. More generally
+$W_t sim N(0, ttimessigma)$.</p>
+<p>We can empiricize these results using the random number generator.</p>
+<p>Shown below are 50 realizations of a Gaussian walk, plotted with +/-2.5 sqrt(t)</p>
+<img alt="random_walk_50.png" class="align-right" src="random_walk_50.png" />
+<p>Shown below are boxplots of 1000 realizations of a 1001 step Gaussian walk</p>
+<img alt="random_walk_boxplot.png" class="align-right" src="random_walk_boxplot.png" />
+<p>The important realizations are that though the mean value of the walk is 0,
+the variance is unbounded. An unbounded variance is an undesirable property
+in time series analysis. In the next section we'll learn how to recitify this
+behavior in the random walk case.</p>
+<p>The code for the above plots is below.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">random_walk_dist</span><span class="p">():</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;50 Random Walks on a Normal Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)),</span> <span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)),</span> <span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Normal Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">w</span><span class="p">[:,</span> <span class="p">::</span><span class="mi">100</span><span class="p">],</span> <span class="n">bootstrap</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)[::</span><span class="mi">100</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="differencing">
+<h2>Differencing</h2>
+<p>Define the backshift function $B(x_t) = x_t-1$. Define the difference function
+$delta x_t = (1 - B) times x_t = x_t - x_t-1$.
+$delta^2 x_t = (1 - B)^2 x_t = x_t - 2 times x_t-1 + x_t-2$</p>
+<p>In the case of our Gaussian random walk, applying $delta$ to $W$ returns the
+series to the original values. In Python the following will print True.</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">w</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+</pre></div>
+<p>Though toyish in appearance, differencing is a fundamental preprocessing step
+for many applications of time series analysis. Suppose we defined a time series
+as $Q_t = Q_t-1 + mu + epsilon$, where $Q_0 = 0$, $mu$ is constant and
+$epsilon sim N(0, 1)$. By induction it can be shown that $delta Q$ has a zero
+mean and a bounded variance. These properties, along with third property
+introduced in the following section simplify time series analysis.</p>
+<p>A simple way to implement differencing in python is below.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">difference</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">power</span>
+    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">difference</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">power</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">difference</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">difference</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">difference</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">difference</span>
+    <span class="k">def</span> <span class="nf">inv_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">power</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">t</span>
+</pre></div>
+<p>The following code prints True for any x of shape $(n,)$ for any power.
+.. code-block:: python</p>
+<blockquote>
+x = np.cumsum(np.random.normal(0, 1, 100))
+model = difference(power=2)
+diff_x = model.fit_transform(x)
+undiff_diff_x = model.inv_transform(diff_x)
+print(np.allclose(undiff_diff_x, x))</blockquote>
+</div>
+<div class="section" id="autocovariance">
+<h2>Autocovariance</h2>
+<p>Define the autocovariance function $gamma(a) = Cov(X_a+t,X_t) = E[(X_a+t - EX_a+t)(X_t - EX_t)], a in T subset R$</p>
+<p>Intuitively, we can think of the autocovariance function as mapping a univariate time
+series to the covariance between lags of the time series.</p>
+<p>If we normalize $gamma(n) div gamma(0)$ we define the autocorrelation function.</p>
+<p>Importantly this function is invariant to translation of the time series. The
+autocorrelation functions of two realizations of the same random walk will be approximately
+the same.</p>
+<p>Several methods exist for the computation. Some are based on the FFT, while others
+are a simple loop.</p>
+<p>Adapted from the Pandas library is the following function.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorrelation</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">corr</span><span class="p">(</span><span class="n">lag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">x</span><span class="p">[:</span><span class="n">n</span> <span class="o">-</span> <span class="n">lag</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">lag</span><span class="p">:]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">var</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="k">def</span> <span class="nf">lagmat</span><span class="p">(</span><span class="n">tseries</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tseries</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">input_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">tseries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">tseries</span><span class="p">))</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ogrid</span><span class="p">[</span><span class="n">lag</span><span class="p">:</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="o">-</span><span class="n">lag</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">Tminus</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">Tminus</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Tminus</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">go_through</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+<p>-- JakeMick</p>
+</div>
                 </article>
-                
-            </aside><!-- /#featured -->
-            
-                <section id="content" class="body">
+                            </aside><!-- /#featured -->
+                            <section id="content" class="body">
                     <h1>Other articles</h1>
                     <hr />
                     <ol id="posts-list" class="hfeed">
-            
-        
-        
-        
-            
+                                                
 
-        
-         
-            
-            <li><article class="hentry">    
+                 
+                        <li><article class="hentry">    
                 <header>
-                    <h1><a href=".././deleting-support-vectors-i-made-a-stupid-argument-on-the-internet.html" rel="bookmark"
+                    <h1><a href="../deleting-support-vectors-i-made-a-stupid-argument-on-the-internet.html" rel="bookmark"
                            title="Permalink to Deleting Support Vectors: I made a stupid argument on the internet">Deleting Support Vectors: I made a stupid argument on the internet</a></h1>
                 </header>
                 
@@ -138,17 +257,11 @@ but these factors come in monthly trends.</p>
                 Sun 02 December 2012
         </abbr>
 
-        
-        <address class="vcard author">
-                By <a class="url fn" href=".././author/jake-mick.html">Jake Mick</a>
+                <address class="vcard author">
+                By <a class="url fn" href="../author/jake-mick.html">Jake Mick</a>
         </address>
-        
-<p>In <a href=".././category/data.html">data</a>. </p>
-<p>tags: <a href=".././tag/visualization.html">visualization</a><a href=".././tag/data.html">data</a><a href=".././tag/python.html">python</a></p>
-
-
-</footer><!-- /.post-info -->
-                <div class="section" id="the-question-posed">
+        <p>In <a href="../category/data.html">data</a>. </p>
+<p>tags: <a href="../tag/visualization.html">visualization</a><a href="../tag/data.html">data</a><a href="../tag/python.html">python</a></p></footer><!-- /.post-info -->                <div class="section" id="the-question-posed">
 <h2>The question posed</h2>
 <p>In r/MachineLearning</p>
 <p>User kripaks asked</p>
@@ -156,58 +269,33 @@ but these factors come in monthly trends.</p>
 Lets say I trained an SVM model on some training data. I then remove the
 support vectors from the training data and re-train the model. The new model
 will have new support vectors. But, what all has changed in this new ...</blockquote></div>
-                <a class="readmore" href=".././deleting-support-vectors-i-made-a-stupid-argument-on-the-internet.html">read more</a>
-                
-                </div><!-- /.entry-content -->
+                <a class="readmore" href="../deleting-support-vectors-i-made-a-stupid-argument-on-the-internet.html">read more</a>
+                                </div><!-- /.entry-content -->
             </article></li>
-        
-        
-            </ol><!-- /#posts-list -->
-            
-                
-<p class="paginator">
-    
-    Page 1 / 1
-    
-</p>
-
-            
-            </section><!-- /#content -->
-        
-    
-
-
-        <section id="extras" class="body">
-        
-        <div class="blogroll">
+                            </ol><!-- /#posts-list -->
+                            <p class="paginator">
+        Page 1 / 1
+    </p>
+                        </section><!-- /#content -->
+                    <section id="extras" class="body">
+                <div class="blogroll">
             <h2>blogs I like</h2>
             <ul>
-                
-                <li><a href="http://www.r-bloggers.com/">R-bloggers</a></li>
-                
-                <li><a href="http://izbicki.me/blog/">My Experiments in Truth</a></li>
-                
-                <li><a href="http://mathbabe.org/">mathbabe</a></li>
-                
-            </ul>
+                                <li><a href="http://www.r-bloggers.com/">R-bloggers</a></li>
+                                <li><a href="http://izbicki.me/blog/">My Experiments in Truth</a></li>
+                                <li><a href="http://mathbabe.org/">mathbabe</a></li>
+                            </ul>
         </div><!-- /.blogroll -->
-        
-        
-        <div class="social">
+                        <div class="social">
             <h2>social</h2>
             <ul>
-                <li><a href="jakemick.github.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                <li><a href="jakemick.github.com/" type="application/atom+xml" rel="alternate">atom feed</a></li>
                 
-
-                
-                <li><a href="http://github.com/JakeMick">gitHub</a></li>
-                
-                <li><a href="http://www.linkedin.com/pub/jacob-mick/53/2b2/b38">linkedIn</a></li>
-                
-            </ul>
+                                <li><a href="http://github.com/JakeMick">gitHub</a></li>
+                                <li><a href="http://www.linkedin.com/pub/jacob-mick/53/2b2/b38">linkedIn</a></li>
+                            </ul>
         </div><!-- /.social -->
-        
-        </section><!-- /#extras -->
+                </section><!-- /#extras -->
 
         <footer id="contentinfo" class="body">
         <address id="about" class="vcard body">
@@ -217,8 +305,5 @@ will have new support vectors. But, what all has changed in this new ...</blockq
         <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
-        
-        
-        
-    </body>
+                            </body>
 </html>
