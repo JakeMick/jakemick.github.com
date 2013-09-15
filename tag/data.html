@@ -62,7 +62,7 @@ a resistor and Yosemite's Geyser eruptions. Less obviously, audio and text can
 be thought of as time series.</p>
 </div>
 <div class="section" id="why-i-m-writing-this">
-<h2>Why I'm writing this.</h2>
+<h2>Why I'm writing this</h2>
 <p>Recently I've been learning about time series modelling. A lot of literature
 exists on the subject, with varying formality and intended uses. As with some
 statistics literature, it is not clear how to apply a given concept to data.
@@ -70,6 +70,7 @@ I've included code for this reason. This isn't algorithmic recipes. The
 intent of this document is to gift you with an intuition behind ideas. Basically
 this is a casual REPL-laden time series analysis text omitting a treatise on
 Hilbert space or memorization of algorithmic recipes.</p>
+<p>This is the document I wish google gave me, you may hate it. $\ddot\smile$</p>
 </div>
 <div class="section" id="random-walk-part-one">
 <h2>Random Walk Part One</h2>
@@ -84,7 +85,7 @@ as measured by the code golf needed to produce it. A random walk can come
 from any distributions. A realization of a random walk on $X \sim N(0, 1)$ is below.</p>
 <img alt="" class="align-right" src="static/random_walk_norm.png" style="width: 1260px; height: auto; max-width: 100%;"/>
 <p>In this introductory text we will only deal with Markov random walks, ones in which
-$W_t$ depends only on $W_t-1$. This simplifies the analysis, but be aware that
+$W_t$ depends only on $W_{t-1}$. This simplifies the analysis, but be aware that
 the literature on random walks travels very far from this text. Other interesting
 properties can be imbued into a random walk that are outside the scope of this
 text.</p>
@@ -131,12 +132,12 @@ multivariate time series methods.</p>
 </div>
 <div class="section" id="random-walk-part-two">
 <h2>Random Walk Part Two</h2>
-<p>Random walks are easily studied phenomena. Suppose we have a $W$ on $N(mu, sigma)$.
-$W_1 \sim N(mu, sigma)$ and $W_2 \sim N(mu + mu, sigma + sigma)$. In the case
-$mu = 0, sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
+<p>Random walks are easily studied phenomena. Suppose we have a $W$ on $N(\mu, \sigma)$.
+$W_1 \sim N(\mu, \sigma)$ and $W_2 \sim N(\mu + \mu, \sigma + \sigma)$. In the case
+$\mu = 0, \sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
 with a zero mean, $W_t \sim N(0, t\sigma)$.</p>
 <p>We can empiricize these results using the random number generator.</p>
-<p>Shown below are 50 realizations of a Gaussian walk, plotted with +/-2.5 sqrt(t)</p>
+<p>Shown below are 50 realizations of a Gaussian walk, plotted with $\pm 2.5 \sqrt t$</p>
 <img alt="" class="align-right" src="static/random_walk_50.png" style="width: 1260px; height: auto; max-width: 100%;"/>
 <p>Shown below are boxplots of 1000 realizations of a 1001 step Gaussian walk</p>
 <img alt="" class="align-right" src="static/random_walk_boxplot.png" style="width: 1260px; height: auto; max-width: 100%;"/>
@@ -176,8 +177,8 @@ series to the original values. In Python the following will print True.</p>
 </pre></div>
 <p>Though toyish in appearance, differencing is a fundamental preprocessing step
 for many applications of time series analysis. Suppose we defined a time series
-as $Q_t = Q_{t-1} + mu + epsilon$, where $Q_0 = 0$, $mu$ is constant and
-$epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a zero
+as $Q_t = Q_{t-1} + \mu + \epsilon$, where $Q_0 = 0$, $\mu$ is constant and
+$\epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a zero
 mean and a bounded variance. These properties, along with third property
 introduced in the following section simplify time series analysis.</p>
 <p>A simple way to implement differencing in python is below.</p>
@@ -206,24 +207,38 @@ introduced in the following section simplify time series analysis.</p>
 </div>
 <div class="section" id="autocorrelation">
 <h2>Autocorrelation</h2>
-<p>Define the autocovariance function $\gamma(s, t) = \frac{E[(X_t - EX_t)(X_s - EX_s)]}{\sigma_t \sigma_s}, s, t \in T \subset R$.</p>
-<p>Intuitively, we can think of the autocovariance function as mapping a univariate time
-series to the covariance between lags of the time series.</p>
-<p>If we normalize $\gamma(a) \over \gamma(0)$ we define the autocorrelation function.</p>
-<p>Importantly this function is invariant to translation of the time series. The
-autocorrelation functions of two realizations of the same model will be approximately
-the same.</p>
+<p>Define the autocorrelation function
+$\gamma(s, t) = \frac{E[(X_t - EX_t)(X_s - EX_s)]}{\sigma_t \sigma_s}$
+where $ s, t \in T \subset R$.</p>
+<p>If we remove the variance divisor, we get the autocovariance function. However
+this change whacks up our interpretation, so we'll pretend it doesn't exist.</p>
+<p>Intuitively, we can think of the autocorrelation function as mapping a univariate time
+series to the correlation between lags of the time series.</p>
+<p>If $EX_t = EX_s = \mu$ and $\sigma_t = \sigma_s = \sigma$ then the above equation reduces to $\gamma(s, t) = \frac{E[(X_t - \mu)(X_s - \mu)]}{\sigma^2}$.</p>
+<p>Importantly this function is invariant to left-right translation of the time series.
+It captures a deep truth about the observed signal.</p>
 <p>Several methods exist for the computation. Some are based on the FFT, while others
 are a simple loop.</p>
 <p>Adapted from the Pandas library is the following function.</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorrelation</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorrelation_slow</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">var</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">def</span> <span class="nf">corr</span><span class="p">(</span><span class="n">lag</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">((</span><span class="n">x</span><span class="p">[:</span><span class="n">n</span> <span class="o">-</span> <span class="n">lag</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">lag</span><span class="p">:]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">var</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+<p>Adapted from the Statsmodels library is the following function.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorrelation_fast</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">-=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">acf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">trans</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">trans</span><span class="p">))[:</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">/</span><span class="n">d</span>
+    <span class="n">acf</span> <span class="o">/=</span> <span class="n">acf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">acf</span><span class="p">)</span>
 </pre></div>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>

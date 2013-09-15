@@ -8,7 +8,7 @@ a resistor and Yosemite's Geyser eruptions. Less obviously, audio and text can
 be thought of as time series.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="why-i-m-writing-this"&gt;
-&lt;h2&gt;Why I'm writing this.&lt;/h2&gt;
+&lt;h2&gt;Why I'm writing this&lt;/h2&gt;
 &lt;p&gt;Recently I've been learning about time series modelling. A lot of literature
 exists on the subject, with varying formality and intended uses. As with some
 statistics literature, it is not clear how to apply a given concept to data.
@@ -16,6 +16,7 @@ I've included code for this reason. This isn't algorithmic recipes. The
 intent of this document is to gift you with an intuition behind ideas. Basically
 this is a casual REPL-laden time series analysis text omitting a treatise on
 Hilbert space or memorization of algorithmic recipes.&lt;/p&gt;
+&lt;p&gt;This is the document I wish google gave me, you may hate it. $\ddot\smile$&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="random-walk-part-one"&gt;
 &lt;h2&gt;Random Walk Part One&lt;/h2&gt;
@@ -30,7 +31,7 @@ as measured by the code golf needed to produce it. A random walk can come
 from any distributions. A realization of a random walk on $X \sim N(0, 1)$ is below.&lt;/p&gt;
 &lt;img alt="" class="align-right" src="static/random_walk_norm.png" style="width: 1260px; height: auto; max-width: 100%;"/&gt;
 &lt;p&gt;In this introductory text we will only deal with Markov random walks, ones in which
-$W_t$ depends only on $W_t-1$. This simplifies the analysis, but be aware that
+$W_t$ depends only on $W_{t-1}$. This simplifies the analysis, but be aware that
 the literature on random walks travels very far from this text. Other interesting
 properties can be imbued into a random walk that are outside the scope of this
 text.&lt;/p&gt;
@@ -77,12 +78,12 @@ multivariate time series methods.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="random-walk-part-two"&gt;
 &lt;h2&gt;Random Walk Part Two&lt;/h2&gt;
-&lt;p&gt;Random walks are easily studied phenomena. Suppose we have a $W$ on $N(mu, sigma)$.
-$W_1 \sim N(mu, sigma)$ and $W_2 \sim N(mu + mu, sigma + sigma)$. In the case
-$mu = 0, sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
+&lt;p&gt;Random walks are easily studied phenomena. Suppose we have a $W$ on $N(\mu, \sigma)$.
+$W_1 \sim N(\mu, \sigma)$ and $W_2 \sim N(\mu + \mu, \sigma + \sigma)$. In the case
+$\mu = 0, \sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
 with a zero mean, $W_t \sim N(0, t\sigma)$.&lt;/p&gt;
 &lt;p&gt;We can empiricize these results using the random number generator.&lt;/p&gt;
-&lt;p&gt;Shown below are 50 realizations of a Gaussian walk, plotted with +/-2.5 sqrt(t)&lt;/p&gt;
+&lt;p&gt;Shown below are 50 realizations of a Gaussian walk, plotted with $\pm 2.5 \sqrt t$&lt;/p&gt;
 &lt;img alt="" class="align-right" src="static/random_walk_50.png" style="width: 1260px; height: auto; max-width: 100%;"/&gt;
 &lt;p&gt;Shown below are boxplots of 1000 realizations of a 1001 step Gaussian walk&lt;/p&gt;
 &lt;img alt="" class="align-right" src="static/random_walk_boxplot.png" style="width: 1260px; height: auto; max-width: 100%;"/&gt;
@@ -122,8 +123,8 @@ series to the original values. In Python the following will print True.&lt;/p&gt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Though toyish in appearance, differencing is a fundamental preprocessing step
 for many applications of time series analysis. Suppose we defined a time series
-as $Q_t = Q_{t-1} + mu + epsilon$, where $Q_0 = 0$, $mu$ is constant and
-$epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a zero
+as $Q_t = Q_{t-1} + \mu + \epsilon$, where $Q_0 = 0$, $\mu$ is constant and
+$\epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a zero
 mean and a bounded variance. These properties, along with third property
 introduced in the following section simplify time series analysis.&lt;/p&gt;
 &lt;p&gt;A simple way to implement differencing in python is below.&lt;/p&gt;
@@ -152,24 +153,38 @@ introduced in the following section simplify time series analysis.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="autocorrelation"&gt;
 &lt;h2&gt;Autocorrelation&lt;/h2&gt;
-&lt;p&gt;Define the autocovariance function $\gamma(s, t) = \frac{E[(X_t - EX_t)(X_s - EX_s)]}{\sigma_t \sigma_s}, s, t \in T \subset R$.&lt;/p&gt;
-&lt;p&gt;Intuitively, we can think of the autocovariance function as mapping a univariate time
-series to the covariance between lags of the time series.&lt;/p&gt;
-&lt;p&gt;If we normalize $\gamma(a) \over \gamma(0)$ we define the autocorrelation function.&lt;/p&gt;
-&lt;p&gt;Importantly this function is invariant to translation of the time series. The
-autocorrelation functions of two realizations of the same model will be approximately
-the same.&lt;/p&gt;
+&lt;p&gt;Define the autocorrelation function
+$\gamma(s, t) = \frac{E[(X_t - EX_t)(X_s - EX_s)]}{\sigma_t \sigma_s}$
+where $ s, t \in T \subset R$.&lt;/p&gt;
+&lt;p&gt;If we remove the variance divisor, we get the autocovariance function. However
+this change whacks up our interpretation, so we'll pretend it doesn't exist.&lt;/p&gt;
+&lt;p&gt;Intuitively, we can think of the autocorrelation function as mapping a univariate time
+series to the correlation between lags of the time series.&lt;/p&gt;
+&lt;p&gt;If $EX_t = EX_s = \mu$ and $\sigma_t = \sigma_s = \sigma$ then the above equation reduces to $\gamma(s, t) = \frac{E[(X_t - \mu)(X_s - \mu)]}{\sigma^2}$.&lt;/p&gt;
+&lt;p&gt;Importantly this function is invariant to left-right translation of the time series.
+It captures a deep truth about the observed signal.&lt;/p&gt;
 &lt;p&gt;Several methods exist for the computation. Some are based on the FFT, while others
 are a simple loop.&lt;/p&gt;
 &lt;p&gt;Adapted from the Pandas library is the following function.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;autocorrelation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;autocorrelation_slow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;assert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;mean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="n"&gt;var&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;mean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;var&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;corr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lag&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;lag&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lag&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;corr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Adapted from the Statsmodels library is the following function.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;autocorrelation_fast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
+    &lt;span class="k"&gt;assert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;trans&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fft&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fft&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;acf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fft&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ifft&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trans&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conjugate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trans&lt;/span&gt;&lt;span class="p"&gt;))[:&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;
+    &lt;span class="n"&gt;acf&lt;/span&gt; &lt;span class="o"&gt;/=&lt;/span&gt; &lt;span class="n"&gt;acf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;acf&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;matplotlib&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;
