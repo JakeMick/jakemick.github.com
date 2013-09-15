@@ -69,7 +69,7 @@ statistics literature, it is not clear how to apply a given concept to data.
 I've included code for this reason. This isn't algorithmic recipes. The
 intent of this document is to gift you with an intuition behind ideas. Basically
 this is a casual time series analysis text. This document is not a treatise on
-Hilbert space. This document is not a collection copy-paste recipes.</p>
+Hilbert space. This document is not a collection of copy-paste recipes.</p>
 <p>This is the document I wish google gave me, you may hate it. $\ddot\smile$</p>
 </div>
 <div class="section" id="random-walk-part-one">
@@ -178,7 +178,7 @@ series to the original values. In Python the following will print True.</p>
 <p>Though toyish in appearance, differencing is a fundamental preprocessing step
 for many applications of time series analysis. Suppose we defined a time series
 as $Q_t = Q_{t-1} + \mu + \epsilon$, where $Q_0 = 0$, $\mu$ is constant and
-$\epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a zero
+$\epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a constant
 mean and a bounded variance. These properties, along with third property
 introduced in the following section simplify time series analysis.</p>
 <p>A simple way to implement differencing in python is below.</p>
