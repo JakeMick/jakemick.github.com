@@ -67,11 +67,11 @@ be thought of as time series.</p>
 a running tally of heads - tails, over 100,000 coin-flips. One such realization
 of the tally is below.</p>
 <img alt="" class="align-right" src="static/random_walk_bin.png" style="width: 1260px; height: auto; max-width: 100%;"/>
-<p>More formally, the coin-flip is $X sim Bin(1, 0.5)$ and the tally is
-$W_t = sumlimits_{i=1}^t x_i$</p>
+<p>More formally, the coin-flip is $X \sim Bin(1, 0.5)$ and the tally is
+$W_t = \sum\limits_{i=1}^t x_i$</p>
 <p>The underlying process is termed a <strong>random walk</strong>. It is the simplest example,
 as measured by the code golf needed to produce it. A random walk can come
-from any distributions. A realization of a random walk on $X sim N(0, 1)$ is below.</p>
+from any distributions. A realization of a random walk on $X \sim N(0, 1)$ is below.</p>
 <img alt="" class="align-right" src="static/random_walk_norm.png" style="width: 1260px; height: auto; max-width: 100%;"/>
 <p>In this introductory text we will only deal with Markov random walks, ones in which
 $W_t$ depends only on $W_t-1$. This simplifies the analysis, but be aware that
@@ -110,9 +110,9 @@ text.</p>
 <div class="section" id="what-is-a-time-series">
 <h2>What is a Time Series?</h2>
 <p>Stepping back for a moment note that our walk $W$ is indexed by time point $t$.
-It is the case for all time series that $t in T subset R$. However, if
-$t in T notsubset R$ then other theory and models are needed. An interesting
-case outside the scope of this discussion arises when $t in T subset R^2$,
+It is the case for all time series that $t \in T \subset R$. However, if
+$t \in T \not\subset R$ then other theory and models are needed. An interesting
+case outside the scope of this discussion arises when $t \in T \subset R^2$,
 which is useful for spatial analysis. Models of this class can be useful in
 predict house prices based on latitude and longitude. Spatial analysis is
 distinct from time series by the index vector, not the shape of the data. For
@@ -122,9 +122,9 @@ multivariate time series methods.</p>
 <div class="section" id="random-walk-part-two">
 <h2>Random Walk Part Two</h2>
 <p>Random walks are easily studied phenomena. Suppose we have a $W$ on $N(mu, sigma)$.
-$W_1 sim N(mu, sigma)$ and $W_2 sim N(mu + mu, sigma + sigma)$. In the case
-$mu = 0, sigma = 1$ we have $W_2 sim N(0, 2timessigma)$. More generally
-$W_t sim N(0, ttimessigma)$.</p>
+$W_1 \sim N(mu, sigma)$ and $W_2 \sim N(mu + mu, sigma + sigma)$. In the case
+$mu = 0, sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
+with a zero mean, $W_t \sim N(0, t\sigma)$.</p>
 <p>We can empiricize these results using the random number generator.</p>
 <p>Shown below are 50 realizations of a Gaussian walk, plotted with +/-2.5 sqrt(t)</p>
 <img alt="" class="align-right" src="static/random_walk_50.png" style="width: 1260px; height: auto; max-width: 100%;"/>
@@ -155,10 +155,10 @@ behavior in the random walk case.</p>
 </div>
 <div class="section" id="differencing">
 <h2>Differencing</h2>
-<p>Define the backshift function $B(x_t) = x_t-1$. Define the difference function
-$delta x_t = (1 - B) times x_t = x_t - x_t-1$.
-$delta^2 x_t = (1 - B)^2 x_t = x_t - 2 times x_t-1 + x_t-2$</p>
-<p>In the case of our Gaussian random walk, applying $delta$ to $W$ returns the
+<p>Define the backshift function $B(x_t) = x_{t-1}$. Define the difference function
+$\Delta x_t = (1 - B) x_t = x_t - x_{t-1}$. Repeated application follows
+the rules of polynomial expansion $\Delta^2 x_t = (1 - B)^2 x_t = x_t - 2  x_{t-1} + x_{t-2}$</p>
+<p>In the case of our Gaussian random walk, applying $\Delta$ to $W$ returns the
 series to the original values. In Python the following will print True.</p>
 <div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -166,8 +166,8 @@ series to the original values. In Python the following will print True.</p>
 </pre></div>
 <p>Though toyish in appearance, differencing is a fundamental preprocessing step
 for many applications of time series analysis. Suppose we defined a time series
-as $Q_t = Q_t-1 + mu + epsilon$, where $Q_0 = 0$, $mu$ is constant and
-$epsilon sim N(0, 1)$. By induction it can be shown that $delta Q$ has a zero
+as $Q_t = Q_{t-1} + mu + epsilon$, where $Q_0 = 0$, $mu$ is constant and
+$epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a zero
 mean and a bounded variance. These properties, along with third property
 introduced in the following section simplify time series analysis.</p>
 <p>A simple way to implement differencing in python is below.</p>
@@ -186,23 +186,23 @@ introduced in the following section simplify time series analysis.</p>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">t</span>
 </pre></div>
-<p>The following code prints True for any x of shape $(n,)$ for any power.
-.. code-block:: python</p>
-<blockquote>
-x = np.cumsum(np.random.normal(0, 1, 100))
-model = difference(power=2)
-diff_x = model.fit_transform(x)
-undiff_diff_x = model.inv_transform(diff_x)
-print(np.allclose(undiff_diff_x, x))</blockquote>
+<p>The following code prints True for any x of shape $(n,)$ for any power.</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">difference</span><span class="p">(</span><span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">undiff_diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">inv_transform</span><span class="p">(</span><span class="n">diff_x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">undiff_diff_x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+</pre></div>
 </div>
 <div class="section" id="autocovariance">
 <h2>Autocovariance</h2>
-<p>Define the autocovariance function $gamma(a) = Cov(X_a+t,X_t) = E[(X_a+t - EX_a+t)(X_t - EX_t)], a in T subset R$</p>
+<p>Define the autocovariance function $\gamma(a) = Cov(X_a+t,X_t) = E[(X_a+t - EX_a+t)(X_t - EX_t)], a \in T \subset R$
+where $t = |T|$</p>
 <p>Intuitively, we can think of the autocovariance function as mapping a univariate time
 series to the covariance between lags of the time series.</p>
-<p>If we normalize $gamma(n) div gamma(0)$ we define the autocorrelation function.</p>
+<p>If we normalize $\gamma(a) \over \gamma(0)$ we define the autocorrelation function.</p>
 <p>Importantly this function is invariant to translation of the time series. The
-autocorrelation functions of two realizations of the same random walk will be approximately
+autocorrelation functions of two realizations of the same model will be approximately
 the same.</p>
 <p>Several methods exist for the computation. Some are based on the FFT, while others
 are a simple loop.</p>

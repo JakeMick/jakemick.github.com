@@ -13,11 +13,11 @@ be thought of as time series.&lt;/p&gt;
 a running tally of heads - tails, over 100,000 coin-flips. One such realization
 of the tally is below.&lt;/p&gt;
 &lt;img alt="" class="align-right" src="static/random_walk_bin.png" style="width: 1260px; height: auto; max-width: 100%;"/&gt;
-&lt;p&gt;More formally, the coin-flip is $X sim Bin(1, 0.5)$ and the tally is
-$W_t = sumlimits_{i=1}^t x_i$&lt;/p&gt;
+&lt;p&gt;More formally, the coin-flip is $X \sim Bin(1, 0.5)$ and the tally is
+$W_t = \sum\limits_{i=1}^t x_i$&lt;/p&gt;
 &lt;p&gt;The underlying process is termed a &lt;strong&gt;random walk&lt;/strong&gt;. It is the simplest example,
 as measured by the code golf needed to produce it. A random walk can come
-from any distributions. A realization of a random walk on $X sim N(0, 1)$ is below.&lt;/p&gt;
+from any distributions. A realization of a random walk on $X \sim N(0, 1)$ is below.&lt;/p&gt;
 &lt;img alt="" class="align-right" src="static/random_walk_norm.png" style="width: 1260px; height: auto; max-width: 100%;"/&gt;
 &lt;p&gt;In this introductory text we will only deal with Markov random walks, ones in which
 $W_t$ depends only on $W_t-1$. This simplifies the analysis, but be aware that
@@ -56,9 +56,9 @@ text.&lt;/p&gt;
 &lt;div class="section" id="what-is-a-time-series"&gt;
 &lt;h2&gt;What is a Time Series?&lt;/h2&gt;
 &lt;p&gt;Stepping back for a moment note that our walk $W$ is indexed by time point $t$.
-It is the case for all time series that $t in T subset R$. However, if
-$t in T notsubset R$ then other theory and models are needed. An interesting
-case outside the scope of this discussion arises when $t in T subset R^2$,
+It is the case for all time series that $t \in T \subset R$. However, if
+$t \in T \not\subset R$ then other theory and models are needed. An interesting
+case outside the scope of this discussion arises when $t \in T \subset R^2$,
 which is useful for spatial analysis. Models of this class can be useful in
 predict house prices based on latitude and longitude. Spatial analysis is
 distinct from time series by the index vector, not the shape of the data. For
@@ -68,9 +68,9 @@ multivariate time series methods.&lt;/p&gt;
 &lt;div class="section" id="random-walk-part-two"&gt;
 &lt;h2&gt;Random Walk Part Two&lt;/h2&gt;
 &lt;p&gt;Random walks are easily studied phenomena. Suppose we have a $W$ on $N(mu, sigma)$.
-$W_1 sim N(mu, sigma)$ and $W_2 sim N(mu + mu, sigma + sigma)$. In the case
-$mu = 0, sigma = 1$ we have $W_2 sim N(0, 2timessigma)$. More generally
-$W_t sim N(0, ttimessigma)$.&lt;/p&gt;
+$W_1 \sim N(mu, sigma)$ and $W_2 \sim N(mu + mu, sigma + sigma)$. In the case
+$mu = 0, sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
+with a zero mean, $W_t \sim N(0, t\sigma)$.&lt;/p&gt;
 &lt;p&gt;We can empiricize these results using the random number generator.&lt;/p&gt;
 &lt;p&gt;Shown below are 50 realizations of a Gaussian walk, plotted with +/-2.5 sqrt(t)&lt;/p&gt;
 &lt;img alt="" class="align-right" src="static/random_walk_50.png" style="width: 1260px; height: auto; max-width: 100%;"/&gt;
@@ -101,10 +101,10 @@ behavior in the random walk case.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="differencing"&gt;
 &lt;h2&gt;Differencing&lt;/h2&gt;
-&lt;p&gt;Define the backshift function $B(x_t) = x_t-1$. Define the difference function
-$delta x_t = (1 - B) times x_t = x_t - x_t-1$.
-$delta^2 x_t = (1 - B)^2 x_t = x_t - 2 times x_t-1 + x_t-2$&lt;/p&gt;
-&lt;p&gt;In the case of our Gaussian random walk, applying $delta$ to $W$ returns the
+&lt;p&gt;Define the backshift function $B(x_t) = x_{t-1}$. Define the difference function
+$\Delta x_t = (1 - B) x_t = x_t - x_{t-1}$. Repeated application follows
+the rules of polynomial expansion $\Delta^2 x_t = (1 - B)^2 x_t = x_t - 2  x_{t-1} + x_{t-2}$&lt;/p&gt;
+&lt;p&gt;In the case of our Gaussian random walk, applying $\Delta$ to $W$ returns the
 series to the original values. In Python the following will print True.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cumsum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -112,8 +112,8 @@ series to the original values. In Python the following will print True.&lt;/p&gt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Though toyish in appearance, differencing is a fundamental preprocessing step
 for many applications of time series analysis. Suppose we defined a time series
-as $Q_t = Q_t-1 + mu + epsilon$, where $Q_0 = 0$, $mu$ is constant and
-$epsilon sim N(0, 1)$. By induction it can be shown that $delta Q$ has a zero
+as $Q_t = Q_{t-1} + mu + epsilon$, where $Q_0 = 0$, $mu$ is constant and
+$epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a zero
 mean and a bounded variance. These properties, along with third property
 introduced in the following section simplify time series analysis.&lt;/p&gt;
 &lt;p&gt;A simple way to implement differencing in python is below.&lt;/p&gt;
@@ -132,23 +132,23 @@ introduced in the following section simplify time series analysis.&lt;/p&gt;
             &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cumsum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The following code prints True for any x of shape $(n,)$ for any power.
-.. code-block:: python&lt;/p&gt;
-&lt;blockquote&gt;
-x = np.cumsum(np.random.normal(0, 1, 100))
-model = difference(power=2)
-diff_x = model.fit_transform(x)
-undiff_diff_x = model.inv_transform(diff_x)
-print(np.allclose(undiff_diff_x, x))&lt;/blockquote&gt;
+&lt;p&gt;The following code prints True for any x of shape $(n,)$ for any power.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cumsum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;difference&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;power&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;diff_x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;undiff_diff_x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;inv_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff_x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;allclose&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;undiff_diff_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="autocovariance"&gt;
 &lt;h2&gt;Autocovariance&lt;/h2&gt;
-&lt;p&gt;Define the autocovariance function $gamma(a) = Cov(X_a+t,X_t) = E[(X_a+t - EX_a+t)(X_t - EX_t)], a in T subset R$&lt;/p&gt;
+&lt;p&gt;Define the autocovariance function $\gamma(a) = Cov(X_a+t,X_t) = E[(X_a+t - EX_a+t)(X_t - EX_t)], a \in T \subset R$
+where $t = |T|$&lt;/p&gt;
 &lt;p&gt;Intuitively, we can think of the autocovariance function as mapping a univariate time
 series to the covariance between lags of the time series.&lt;/p&gt;
-&lt;p&gt;If we normalize $gamma(n) div gamma(0)$ we define the autocorrelation function.&lt;/p&gt;
+&lt;p&gt;If we normalize $\gamma(a) \over \gamma(0)$ we define the autocorrelation function.&lt;/p&gt;
 &lt;p&gt;Importantly this function is invariant to translation of the time series. The
-autocorrelation functions of two realizations of the same random walk will be approximately
+autocorrelation functions of two realizations of the same model will be approximately
 the same.&lt;/p&gt;
 &lt;p&gt;Several methods exist for the computation. Some are based on the FFT, while others
 are a simple loop.&lt;/p&gt;
