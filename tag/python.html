@@ -61,6 +61,16 @@ are gross domestic product, the stock price of Apple, electrical current through
 a resistor and Yosemite's Geyser eruptions. Less obviously, audio and text can
 be thought of as time series.</p>
 </div>
+<div class="section" id="why-i-m-writing-this">
+<h2>Why I'm writing this.</h2>
+<p>Recently I've been learning about time series modelling. A lot of literature
+exists on the subject, with varying formality and intended uses. As with some
+statistics literature, it is not clear how to apply a given concept to data.
+I've included code for this reason. This isn't algorithmic recipes. The
+intent of this document is to gift you with an intuition behind ideas. Basically
+this is a casual REPL-laden time series analysis text omitting a treatise on
+Hilbert space or memorization of algorithmic recipes.</p>
+</div>
 <div class="section" id="random-walk-part-one">
 <h2>Random Walk Part One</h2>
 <p>Consider the eponymous coin-flip. $P(tails) = P(heads) = 1/2$. Suppose we kept
@@ -194,10 +204,9 @@ introduced in the following section simplify time series analysis.</p>
 <span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">undiff_diff_x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="section" id="autocovariance">
-<h2>Autocovariance</h2>
-<p>Define the autocovariance function $\gamma(a) = Cov(X_a+t,X_t) = E[(X_a+t - EX_a+t)(X_t - EX_t)], a \in T \subset R$
-where $t = |T|$</p>
+<div class="section" id="autocorrelation">
+<h2>Autocorrelation</h2>
+<p>Define the autocovariance function $\gamma(s, t) = \frac{E[(X_t - EX_t)(X_s - EX_s)]}{\sigma_t \sigma_s}, s, t \in T \subset R$.</p>
 <p>Intuitively, we can think of the autocovariance function as mapping a univariate time
 series to the covariance between lags of the time series.</p>
 <p>If we normalize $\gamma(a) \over \gamma(0)$ we define the autocorrelation function.</p>
