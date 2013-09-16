@@ -181,7 +181,10 @@ as $Q_t = Q_{t-1} + \mu + \epsilon$, where $Q_0 = 0$, $\mu$ is constant and
 $\epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a constant
 mean and a bounded variance. These properties, along with third property
 introduced in the following section simplify time series analysis.</p>
-<p>Shown below is the above model once differenced.</p>
+<p>Here is a realization of the above model.</p>
+<img alt="static/const_mean.png" class="align-right" src="static/const_mean.png" />
+<p>Here is the same model once differenced.</p>
+<img alt="static/differed_const_mean.png" class="align-right" src="static/differed_const_mean.png" />
 <p>A simple way to implement differencing in python is below.</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">difference</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -233,8 +236,6 @@ True for any x of shape $(n,)$ for any power.</p>
 <span class="n">undiff_diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">inv_transform</span><span class="p">(</span><span class="n">diff_x</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">undiff_diff_x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
 </pre></div>
-<img alt="static/differed_const_mean.png" class="align-right" src="static/differed_const_mean.png" />
-<img alt="static/const_mean.png" class="align-right" src="static/const_mean.png" />
 </div>
 <div class="section" id="autocorrelation">
 <h2>Autocorrelation</h2>

@@ -127,7 +127,10 @@ as $Q_t = Q_{t-1} + \mu + \epsilon$, where $Q_0 = 0$, $\mu$ is constant and
 $\epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a constant
 mean and a bounded variance. These properties, along with third property
 introduced in the following section simplify time series analysis.&lt;/p&gt;
-&lt;p&gt;Shown below is the above model once differenced.&lt;/p&gt;
+&lt;p&gt;Here is a realization of the above model.&lt;/p&gt;
+&lt;img alt="static/const_mean.png" class="align-right" src="static/const_mean.png" /&gt;
+&lt;p&gt;Here is the same model once differenced.&lt;/p&gt;
+&lt;img alt="static/differed_const_mean.png" class="align-right" src="static/differed_const_mean.png" /&gt;
 &lt;p&gt;A simple way to implement differencing in python is below.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;difference&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;power&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -179,8 +182,6 @@ True for any x of shape $(n,)$ for any power.&lt;/p&gt;
 &lt;span class="n"&gt;undiff_diff_x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;inv_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diff_x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;allclose&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;undiff_diff_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;img alt="static/differed_const_mean.png" class="align-right" src="static/differed_const_mean.png" /&gt;
-&lt;img alt="static/const_mean.png" class="align-right" src="static/const_mean.png" /&gt;
 &lt;/div&gt;
 &lt;div class="section" id="autocorrelation"&gt;
 &lt;h2&gt;Autocorrelation&lt;/h2&gt;
