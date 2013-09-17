@@ -93,7 +93,7 @@ with a zero mean, $W_t \sim N(0, t\sigma)$.&lt;/p&gt;
 &lt;img alt="static/random_walk_boxplot.png" class="align-right" src="static/random_walk_boxplot.png" /&gt;
 &lt;p&gt;The important realizations are that though the mean value of the walk is 0,
 the variance is unbounded. An unbounded variance is an undesirable property
-in time series analysis. In the next section we'll learn how to recitify this
+in time series analysis. In the next section we'll learn how to rectify this
 behavior in the random walk case.&lt;/p&gt;
 &lt;p&gt;The code for the above plots is below.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;random_walk_dist&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
@@ -202,7 +202,7 @@ equation reduces to $\gamma(s, r) = \frac{E[(x_s - \mu)(x_r - \mu)]}{\sigma^2}$.
 &lt;p&gt;This is equivalent to saying $\gamma(s, r) = \gamma(s-r, 0)$, which can be
 rewritten as $\gamma(h) = \frac{E[(x_{t+h} - \mu)(x_t - \mu)]}{\sigma^2}$.&lt;/p&gt;
 &lt;p&gt;In English this means that our autocorrelation function is dependent only on the lag.&lt;/p&gt;
-&lt;p&gt;Where we might see&lt;/p&gt;
+&lt;p&gt;Where we might see noise the autocorrelation function captures hidden structure.&lt;/p&gt;
 &lt;p&gt;If we remove the variance divisor, we get the autocovariance function. However
 this change whacks up our interpretation, so we'll pretend it doesn't exist. Some
 literature uses these terms interchangably, but technically the autocovariance
