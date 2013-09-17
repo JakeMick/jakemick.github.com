@@ -132,6 +132,10 @@ predict house prices based on latitude and longitude. Spatial analysis is
 distinct from time series by the index vector, not the shape of the data. For
 example, if we have a collection of correlated walks, we would model them by
 multivariate time series methods.</p>
+<p>The examples used within this document are <strong>stochastic processes</strong>, which
+is a formal way of saying that the evolution of a time series is probabilistically
+determined. This contrasts the time evolution of a solution to a differential equation,
+in which our response is deterministic.</p>
 </div>
 <div class="section" id="random-walk-part-two">
 <h2>Random Walk Part Two</h2>
@@ -242,14 +246,23 @@ True for any x of shape $(n,)$ for any power.</p>
 </div>
 <div class="section" id="autocorrelation">
 <h2>Autocorrelation</h2>
+<p>Intuitively, we can think of the autocorrelation function of a well-behaved
+time series as mapping a univariate time series to the correlation between
+lags of the time series.</p>
 <p>Define the autocorrelation function
-$\gamma(s, t) = \frac{E[(X_t - EX_t)(X_s - EX_s)]}{\sigma_t \sigma_s}$
-where $ s, t \in T \subset R$.</p>
+$\gamma(s, r) = \frac{E[(X_s - EX_s)(X_r - EX_r)]}{\sigma_s \sigma_r}$
+where $ s, r \in T \subset R$.</p>
+<p>Well-behaved is precisely defined.</p>
+<p>If $EX_r = EX_s = \mu$ and $\sigma_r = \sigma_s = \sigma$ then the above
+equation reduces to $\gamma(s, r) = \frac{E[(x_s - \mu)(x_r - \mu)]}{\sigma^2}$.</p>
+<p>This is equivalent to saying $\gamma(s, r) = \gamma(s-r, 0)$, which can be
+rewritten as $\gamma(h) = \frac{E[(x_t+h - \mu)(x_t - \mu)]}{\sigma^2}$.</p>
+<p>In English this means that our autocorrelation function is dependent only on the lag.</p>
+<p>Where we might see</p>
 <p>If we remove the variance divisor, we get the autocovariance function. However
-this change whacks up our interpretation, so we'll pretend it doesn't exist.</p>
-<p>Intuitively, we can think of the autocorrelation function as mapping a univariate time
-series to the correlation between lags of the time series.</p>
-<p>If $EX_t = EX_s = \mu$ and $\sigma_t = \sigma_s = \sigma$ then the above equation reduces to $\gamma(s, t) = \frac{E[(X_t - \mu)(X_s - \mu)]}{\sigma^2}$.</p>
+this change whacks up our interpretation, so we'll pretend it doesn't exist. Some
+literature uses these terms interchangably, but technically the autocovariance
+function is unnormalized.</p>
 <p>Importantly this function is invariant to left-right translation of the time series.
 It captures a deep truth about the observed signal.</p>
 <p>Several methods exist for the computation. Some are based on the FFT, while others
