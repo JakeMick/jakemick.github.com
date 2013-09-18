@@ -261,6 +261,11 @@ equation reduces to $\gamma(s, r) = \frac{E[(x_s - \mu)(x_r - \mu)]}{\sigma^2}$.
 rewritten as $\gamma(h) = \frac{E[(x_{t+h} - \mu)(x_t - \mu)]}{\sigma^2}$.</p>
 <p>In English this means that our autocorrelation function is dependent only on the lag.</p>
 <p>Where we might see noise the autocorrelation function captures hidden structure.</p>
+<p>Consider the following two time series.</p>
+<img alt="static/autocorr_notrend.png" class="align-right" src="static/autocorr_notrend.png" />
+<img alt="static/autocorr_trend.png" class="align-right" src="static/autocorr_trend.png" />
+<img alt="static/autocorr_autocorr_notrend.png" class="align-right" src="static/autocorr_autocorr_notrend.png" />
+<img alt="static/autocorr_autocorr_trend.png" class="align-right" src="static/autocorr_autocorr_trend.png" />
 <p>If we remove the variance divisor, we get the autocovariance function. However
 this change whacks up our interpretation, so we'll pretend it doesn't exist. Some
 literature uses these terms interchangably, but technically the autocovariance
