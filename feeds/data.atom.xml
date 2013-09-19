@@ -240,7 +240,7 @@ are a simple loop.&lt;/p&gt;
 &lt;p&gt;You may be thinking, &amp;quot;oh shit, a fourier transform.&amp;quot; Or you may be thinking
 &amp;quot;Oh shit! A fourier transform.&amp;quot; So far, our analysis has been relegated to
 the time domain, but the frequency domain plays a central role to time series
-analysis. There's a lot of interesing math that arises in time series analysis.
+analysis. There's a lot of interesting math that arises in time series analysis.
 You'll have to read me prattle on for a bit before you see it. There's a
 fascinating relation between eigenvectors and the fourier transform.&lt;/p&gt;
 &lt;p&gt;The code used to produce the plots in the above section.&lt;/p&gt;
