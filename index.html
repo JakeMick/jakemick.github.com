@@ -122,8 +122,8 @@ text.</p>
 <div class="section" id="what-is-a-time-series">
 <h2>What is a Time Series?</h2>
 <p>Stepping back for a moment note that our walk $W$ is indexed by time point $t$.
-It is the case for all time series that $t \in T \subset R$. However, if
-$t \in T \not\subset R$ then other theory and models are needed. An interesting
+It is the case for all time series that $t \in T \subset N$. However, if
+$t \in T \not\subset N$ then other theory and models are needed. An interesting
 case outside the scope of this discussion arises when $t \in T \subset R^2$,
 which is useful for spatial analysis. Models of this class can be useful in
 predict house prices based on latitude and longitude. Spatial analysis is
@@ -258,17 +258,17 @@ equation reduces to $\gamma(s, r) = \frac{E[(x_s - \mu)(x_r - \mu)]}{\sigma^2}$.
 rewritten as $\gamma(h) = \frac{E[(x_{t+h} - \mu)(x_t - \mu)]}{\sigma^2}$.</p>
 <p>In English this means that our autocorrelation function is dependent only on the lag.</p>
 <p>Where we might see noise the autocorrelation function captures hidden structure.</p>
-<p>Consider the following two time series.</p>
+<p>Consider the following sequence of random numbers.</p>
 <img alt="static/autocorr_notrend.png" class="align-right" src="static/autocorr_notrend.png" />
-<img alt="static/autocorr_trend.png" class="align-right" src="static/autocorr_trend.png" />
+<p>It has a pretty lame autocorrelation function.</p>
 <img alt="static/autocorr_autocorr_notrend.png" class="align-right" src="static/autocorr_autocorr_notrend.png" />
+<p>Consider an autocorrelated sequence.</p>
+<img alt="static/autocorr_trend.png" class="align-right" src="static/autocorr_trend.png" />
+<p>At face value, this sequence looks like the random numbers above. When we plot
+the autocorrelation function though, something interesting happens.</p>
 <img alt="static/autocorr_autocorr_trend.png" class="align-right" src="static/autocorr_autocorr_trend.png" />
-<p>If we remove the variance divisor, we get the autocovariance function. However
-this change whacks up our interpretation, so we'll pretend it doesn't exist. Some
-literature uses these terms interchangably, but technically the autocovariance
-function is unnormalized.</p>
-<p>Importantly this function is invariant to left-right translation of the time series.
-It captures a deep truth about the observed signal.</p>
+<p>Wow! Where we saw a useless plot, the autocorrelation function sees a pattern.
+Later on we'll exploit such patterns.</p>
 <p>Several methods exist for the computation. Some are based on the FFT, while others
 are a simple loop.</p>
 <p>Adapted from the Pandas library is the following function.</p>
@@ -291,24 +291,68 @@ are a simple loop.</p>
     <span class="n">acf</span> <span class="o">/=</span> <span class="n">acf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">acf</span><span class="p">)</span>
 </pre></div>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="k">def</span> <span class="nf">lagmat</span><span class="p">(</span><span class="n">tseries</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-    <span class="n">input_shape</span> <span class="o">=</span> <span class="n">tseries</span><span class="o">.</span><span class="n">shape</span>
-    <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">input_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">tseries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">tseries</span><span class="p">))</span>
-    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ogrid</span><span class="p">[</span><span class="n">lag</span><span class="p">:</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="o">-</span><span class="n">lag</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">Tminus</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">Tminus</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Tminus</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">go_through</span><span class="p">()</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+<p>You may be thinking, &quot;oh shit, a fourier transform.&quot; Or you may be thinking
+&quot;Oh shit! A fourier transform.&quot; So far, our analysis has been relegated to
+the time domain, but the frequency domain plays a central role to time series
+analysis. There's a lot of interesing math that arises in time series analysis.
+You'll have to read me prattle on for a bit before you see it. There's a
+particularly fascinating equality between the eigenvalues of useful matrix for
+time series analysis and the fourier transform.</p>
+<p>The code used to produce the plots in the above section.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorr_example</span><span class="p">():</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123456</span><span class="p">)</span>
+    <span class="c"># Make autocorrelated data</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3</span><span class="p">])</span>
+    <span class="n">x_auto</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">997</span><span class="p">):</span>
+        <span class="n">x_auto</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x_auto</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:],</span> <span class="n">params</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">x_auto</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_auto</span><span class="p">)</span>
+    <span class="n">auto_model</span> <span class="o">=</span> <span class="n">difference</span><span class="p">()</span>
+    <span class="n">x_autodiff</span> <span class="o">=</span> <span class="n">auto_model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x_auto</span><span class="p">)</span>
+    <span class="n">x_autodiff</span> <span class="o">-=</span> <span class="n">x_autodiff</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">x_autodiff</span> <span class="o">/=</span> <span class="n">x_autodiff</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="c"># Make data that isn&#39;t autocorrelated</span>
+    <span class="n">x_not</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">not_auto_model</span> <span class="o">=</span> <span class="n">difference</span><span class="p">()</span>
+    <span class="n">x_notdiff</span> <span class="o">=</span> <span class="n">not_auto_model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x_not</span><span class="p">)</span>
+    <span class="n">x_notdiff</span> <span class="o">-=</span> <span class="n">x_notdiff</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">x_notdiff</span> <span class="o">/=</span> <span class="n">x_notdiff</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="c"># Plot both series</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_autodiff</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Realization of Autocorrelated Function&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_notdiff</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Realization of Random Values&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="c"># Plot autocorrelation of both</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">autocorrelation_fast</span><span class="p">(</span><span class="n">x_autodiff</span><span class="p">),</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Lag&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Autocorrelation probability&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Autocorrelation function of autocorrelated function&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">autocorrelation_fast</span><span class="p">(</span><span class="n">x_notdiff</span><span class="p">),</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Lag&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Autocorrelation probability&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Autocorrelation function of random values&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+<div class="section" id="stationarity">
+<h2>Stationarity</h2>
+<p>Stationarity is the set of assumptions required for classic time series models.</p>
+<ol class="lowerroman simple">
+<li>$E|X_t|^2 &lt; \inf for all t \in N$</li>
+<li>$EX_t = m for all t \in N$</li>
+<li>$\gamma(s, r) = \gamma(s + t, r + t) for all r,s,t \in N$</li>
+</ol>
 <p>-- JakeMick</p>
 </div>
                 </article>
