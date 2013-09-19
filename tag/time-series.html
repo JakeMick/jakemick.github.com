@@ -65,7 +65,8 @@ be thought of as time series.</p>
 <div class="section" id="why-i-m-writing-this">
 <h2>Why I'm writing this</h2>
 <p>Recently I've been learning about time series modelling. A lot of literature
-exists on the subject, with varying formality and intended uses. As with some
+exists on the subject, with varying formality and intended uses. This text
+will start off with time series as it relates to forecasting. With some
 statistics literature, it is not clear how to apply a given concept to data.
 I've included code for this reason. This isn't algorithmic recipes. The
 intent of this document is to gift you with an intuition behind ideas. Basically
@@ -296,8 +297,7 @@ are a simple loop.</p>
 the time domain, but the frequency domain plays a central role to time series
 analysis. There's a lot of interesing math that arises in time series analysis.
 You'll have to read me prattle on for a bit before you see it. There's a
-particularly fascinating equality between the eigenvalues of useful matrix for
-time series analysis and the fourier transform.</p>
+fascinating relation between eigenvectors and the fourier transform.</p>
 <p>The code used to produce the plots in the above section.</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorr_example</span><span class="p">():</span>
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123456</span><span class="p">)</span>
@@ -350,9 +350,18 @@ time series analysis and the fourier transform.</p>
 <p>Stationarity is the set of assumptions required for classic time series models.</p>
 <ol class="lowerroman simple">
 <li>$E|X_t|^2 &lt; \infty, \quad \forall t \in N$</li>
-<li>$EX_t = m, \quad \forall t \in N$</li>
+<li>$EX_t = \mu, \quad \forall t \in N$</li>
 <li>$\gamma(s, r) = \gamma(s + t, r + t), \quad \forall r,s,t \in N$</li>
 </ol>
+<p>In English</p>
+<ol class="lowerroman simple">
+<li>The time series doesn't blow up.</li>
+<li>The time series has no drift.</li>
+<li>The correlation between values is dependent only on the lag between them.</li>
+</ol>
+<p>These assumptions are known as second-order stationarity, or weak stationarity.
+You can often achieve stationarity by (repeated) differencing of your time
+series.</p>
 <p>-- JakeMick</p>
 </div>
                 </article>

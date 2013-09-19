@@ -10,7 +10,8 @@ be thought of as time series.&lt;/p&gt;
 &lt;div class="section" id="why-i-m-writing-this"&gt;
 &lt;h2&gt;Why I'm writing this&lt;/h2&gt;
 &lt;p&gt;Recently I've been learning about time series modelling. A lot of literature
-exists on the subject, with varying formality and intended uses. As with some
+exists on the subject, with varying formality and intended uses. This text
+will start off with time series as it relates to forecasting. With some
 statistics literature, it is not clear how to apply a given concept to data.
 I've included code for this reason. This isn't algorithmic recipes. The
 intent of this document is to gift you with an intuition behind ideas. Basically
@@ -241,8 +242,7 @@ are a simple loop.&lt;/p&gt;
 the time domain, but the frequency domain plays a central role to time series
 analysis. There's a lot of interesing math that arises in time series analysis.
 You'll have to read me prattle on for a bit before you see it. There's a
-particularly fascinating equality between the eigenvalues of useful matrix for
-time series analysis and the fourier transform.&lt;/p&gt;
+fascinating relation between eigenvectors and the fourier transform.&lt;/p&gt;
 &lt;p&gt;The code used to produce the plots in the above section.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;autocorr_example&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;seed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;123456&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -295,9 +295,18 @@ time series analysis and the fourier transform.&lt;/p&gt;
 &lt;p&gt;Stationarity is the set of assumptions required for classic time series models.&lt;/p&gt;
 &lt;ol class="lowerroman simple"&gt;
 &lt;li&gt;$E|X_t|^2 &amp;lt; \infty, \quad \forall t \in N$&lt;/li&gt;
-&lt;li&gt;$EX_t = m, \quad \forall t \in N$&lt;/li&gt;
+&lt;li&gt;$EX_t = \mu, \quad \forall t \in N$&lt;/li&gt;
 &lt;li&gt;$\gamma(s, r) = \gamma(s + t, r + t), \quad \forall r,s,t \in N$&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;In English&lt;/p&gt;
+&lt;ol class="lowerroman simple"&gt;
+&lt;li&gt;The time series doesn't blow up.&lt;/li&gt;
+&lt;li&gt;The time series has no drift.&lt;/li&gt;
+&lt;li&gt;The correlation between values is dependent only on the lag between them.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These assumptions are known as second-order stationarity, or weak stationarity.
+You can often achieve stationarity by (repeated) differencing of your time
+series.&lt;/p&gt;
 &lt;p&gt;-- JakeMick&lt;/p&gt;
 &lt;/div&gt;
 </summary><category term="time-series"></category><category term="data"></category><category term="python"></category></entry><entry><title>Deleting Support Vectors: I made a stupid argument on the internet</title><link href="/deleting-support-vectors-i-made-a-stupid-argument-on-the-internet.html" rel="alternate"></link><updated>2012-12-02T00:00:00-06:00</updated><author><name>Jake Mick</name></author><id>tag:,2012-12-02:deleting-support-vectors-i-made-a-stupid-argument-on-the-internet.html</id><summary type="html">&lt;div class="section" id="the-question-posed"&gt;
