@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Time Series: Part 1. An Introduction</title>
+        <title>Time Series: Part 1. An Introduction to Stationarity</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="/theme/css/main.css" type="text/css" />
                         <!-- Yanked from http://www.ceremade.dauphine.fr/~amic/en/blog/mathjax-and-pelican.html -->
@@ -43,8 +43,8 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="time-series-part-1-an-introduction.html" rel="bookmark"
-           title="Permalink to Time Series: Part 1. An Introduction">Time Series: Part 1. An Introduction</a></h1>
+        <a href="time-series-part-1-an-introduction-to-stationarity.html" rel="bookmark"
+           title="Permalink to Time Series: Part 1. An Introduction to Stationarity">Time Series: Part 1. An Introduction to Stationarity</a></h1>
           </header>
 
     <div class="entry-content">
@@ -76,6 +76,18 @@ intent of this document is to gift you with an intuition behind ideas. Basically
 this is a casual time series analysis text. This document is not a treatise on
 Hilbert space. This document is not a collection of copy-paste recipes.</p>
 <p>This is the document I wish google gave me, you may hate it. $\ddot\smile$</p>
+</div>
+<div class="section" id="outline">
+<h2>Outline</h2>
+<ol class="lowerroman simple">
+<li>An Introduction to Stationarity.</li>
+<li>AR, ARMA, ARIMA.</li>
+<li>Forecast time series anyway.</li>
+<li>Multivariate time series.</li>
+<li>Classification time series.</li>
+<li>Frequency domain.</li>
+<li>Toeplitz and Circulant Matrices.</li>
+</ol>
 </div>
 <div class="section" id="random-walk-part-one">
 <h2>Random Walk Part One</h2>
@@ -126,9 +138,9 @@ text.</p>
 <div class="section" id="what-is-a-time-series">
 <h2>What is a Time Series?</h2>
 <p>Stepping back for a moment note that our walk $W$ is indexed by time point $t$.
-It is the case for all time series that $t \in T \subset N$. However, if
-$t \in T \not\subset N$ then other theory and models are needed. An interesting
-case outside the scope of this discussion arises when $t \in T \subset R^2$,
+It is the case for all time series that $t \in T \subset \mathbb N$. However, if
+$t \in T \not\subset \mathbb N$ then other theory and models are needed. An interesting
+case outside the scope of this discussion arises when $t \in T \subset \mathbb R^2$,
 which is useful for spatial analysis. Models of this class can be useful in
 predict house prices based on latitude and longitude. Spatial analysis is
 distinct from time series by the index vector, not the shape of the data. For
@@ -253,7 +265,7 @@ time series as mapping a univariate time series to the correlation between
 lags of the time series.</p>
 <p>Define the autocorrelation function
 $\gamma(s, r) = \frac{E[(X_s - EX_s)(X_r - EX_r)]}{\sigma_s \sigma_r}$
-where $ s, r \in T \subset N$.</p>
+where $ s, r \in T \subset \mathbb N$.</p>
 <p>Well-behaved is precisely defined.</p>
 <p>If $EX_r = EX_s = \mu$ and $\sigma_r = \sigma_s = \sigma$ then the above
 equation reduces to $\gamma(s, r) = \frac{E[(x_s - \mu)(x_r - \mu)]}{\sigma^2}$.</p>
@@ -299,8 +311,7 @@ are a simple loop.</p>
 &quot;Oh shit! A fourier transform.&quot; So far, our analysis has been relegated to
 the time domain, but the frequency domain plays a central role to time series
 analysis. There's a lot of interesting math that arises in time series analysis.
-You'll have to read me prattle on for a bit before you see it. There's a
-fascinating relation between eigenvectors and the fourier transform.</p>
+You'll have to read me prattle on for a bit before you see it.</p>
 <p>The code used to produce the plots in the above section.</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorr_example</span><span class="p">():</span>
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123456</span><span class="p">)</span>
@@ -352,9 +363,9 @@ fascinating relation between eigenvectors and the fourier transform.</p>
 <h2>Stationarity</h2>
 <p>Stationarity is the set of assumptions required for classic time series models.</p>
 <ol class="lowerroman simple">
-<li>$E|X_t|^2 &lt; \infty, \quad \forall t \in N$</li>
-<li>$EX_t = \mu, \quad \forall t \in N$</li>
-<li>$\gamma(s, r) = \gamma(s + t, r + t), \quad \forall r,s,t \in N$</li>
+<li>$E|X_t|^2 &lt; \infty, \quad \forall t \in \mathbb N$</li>
+<li>$EX_t = \mu, \quad \forall t \in \mathbb N$</li>
+<li>$\gamma(s, r) = \gamma(s + t, r + t), \quad \forall r,s,t \in \mathbb N$</li>
 </ol>
 <p>In English</p>
 <ol class="lowerroman simple">
@@ -373,7 +384,7 @@ series.</p>
       <h2>Comments !</h2>
       <div id="disqus_thread"></div>
       <script type="text/javascript">
-        var disqus_identifier = "time-series-part-1-an-introduction.html";
+        var disqus_identifier = "time-series-part-1-an-introduction-to-stationarity.html";
         (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = 'http://adventuresinvectors.disqus.com/embed.js';
