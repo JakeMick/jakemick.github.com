@@ -163,8 +163,7 @@ with a zero mean, $W_t \sim N(0, t\sigma)$.</p>
 <p>Shown below are boxplots of 1000 realizations of a 1001 step Gaussian walk</p>
 <img alt="static/random_walk_boxplot.png" class="align-right" src="static/random_walk_boxplot.png" />
 <p>The important realizations are that though the mean value of the walk is 0,
-the variance is unbounded. An unbounded variance is an undesirable property
-in time series analysis. In the next section we'll learn how to rectify this
+the variance is a function of time. In the next section we'll learn how to rectify this
 behavior in the random walk case.</p>
 <p>The code for the above plots is below.</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">random_walk_dist</span><span class="p">():</span>
@@ -223,6 +222,14 @@ introduced in the following section simplify time series analysis.</p>
             <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span>
 </pre></div>
+<p>Ignoring numerical instabilities for higher powers, the following code prints
+True for any x of shape $(n,)$ for any power.</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">difference</span><span class="p">(</span><span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">undiff_diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">inv_transform</span><span class="p">(</span><span class="n">diff_x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">undiff_diff_x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+</pre></div>
 <p>The following code produces the above plot.</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">differ_example</span><span class="p">():</span>
     <span class="c"># Generate time series model</span>
@@ -248,14 +255,6 @@ introduced in the following section simplify time series analysis.</p>
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Delta&#39;d Walk&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-<p>Ignoring numerical instabilities for higher powers, the following code prints
-True for any x of shape $(n,)$ for any power.</p>
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">difference</span><span class="p">(</span><span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">undiff_diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">inv_transform</span><span class="p">(</span><span class="n">diff_x</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">undiff_diff_x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="section" id="autocorrelation">
