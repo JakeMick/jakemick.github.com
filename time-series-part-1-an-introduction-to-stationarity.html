@@ -153,10 +153,10 @@ in which our response is deterministic.</p>
 </div>
 <div class="section" id="random-walk-part-two">
 <h2>Random Walk Part Two</h2>
-<p>Random walks are easily studied phenomena. Suppose we have a $W$ on $N(\mu, \sigma)$.
-$W_1 \sim N(\mu, \sigma)$ and $W_2 \sim N(\mu + \mu, \sigma + \sigma)$. In the case
+<p>Random walks are easily studied phenomena. Suppose we have a $W$ on $N(\mu, \sigma^2)$.
+$W_1 \sim N(\mu, \sigma^2)$ and $W_2 \sim N(\mu + \mu, \sigma^2 + \sigma^2)$. In the case
 $\mu = 0, \sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
-with a zero mean, $W_t \sim N(0, t\sigma)$.</p>
+with a zero mean, $W_t \sim N(0, t\sigma^2)$.</p>
 <p>We can empiricize these results using the random number generator.</p>
 <p>Shown below are 50 realizations of a Gaussian walk, plotted with $\pm 2.5 \sqrt t$</p>
 <img alt="static/random_walk_50.png" class="align-right" src="static/random_walk_50.png" />
@@ -299,7 +299,7 @@ are a simple loop.</p>
 <p>Adapted from the Statsmodels library is the following function.</p>
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorrelation_fast</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">-=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">acf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">trans</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">trans</span><span class="p">))[:</span><span class="n">l</span><span class="p">]</span>

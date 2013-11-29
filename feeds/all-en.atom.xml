@@ -3,7 +3,8 @@
 &lt;h2&gt;Time Series Revisted&lt;/h2&gt;
 &lt;p&gt;This is a continuation of a tour of time series as it relates to forecasting.
 In &lt;a class="reference external" href="http://jakemick.github.io/time-series-part-1-an-introduction.html"&gt;PartOne&lt;/a&gt; we went on to studied stationarity with pretty plots and a random
-number generator.&lt;/p&gt;
+number generator. Given knowledge of stationarity we can derive a linear
+model of time series for forecasting.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="autoregressive-model"&gt;
 &lt;h2&gt;Autoregressive Model&lt;/h2&gt;
@@ -16,6 +17,12 @@ number generator.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="autoregressive-integrated-moving-average"&gt;
 &lt;h2&gt;Autoregressive-Integrated-Moving Average&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="section" id="akaike-information-criterion"&gt;
+&lt;h2&gt;Akaike Information Criterion&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="section" id="condition-numbers"&gt;
+&lt;h2&gt;Condition Numbers&lt;/h2&gt;
 &lt;/div&gt;
 &lt;div class="section" id="box-jenkins"&gt;
 &lt;h2&gt;Box Jenkins&lt;/h2&gt;
@@ -121,10 +128,10 @@ in which our response is deterministic.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="random-walk-part-two"&gt;
 &lt;h2&gt;Random Walk Part Two&lt;/h2&gt;
-&lt;p&gt;Random walks are easily studied phenomena. Suppose we have a $W$ on $N(\mu, \sigma)$.
-$W_1 \sim N(\mu, \sigma)$ and $W_2 \sim N(\mu + \mu, \sigma + \sigma)$. In the case
+&lt;p&gt;Random walks are easily studied phenomena. Suppose we have a $W$ on $N(\mu, \sigma^2)$.
+$W_1 \sim N(\mu, \sigma^2)$ and $W_2 \sim N(\mu + \mu, \sigma^2 + \sigma^2)$. In the case
 $\mu = 0, \sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
-with a zero mean, $W_t \sim N(0, t\sigma)$.&lt;/p&gt;
+with a zero mean, $W_t \sim N(0, t\sigma^2)$.&lt;/p&gt;
 &lt;p&gt;We can empiricize these results using the random number generator.&lt;/p&gt;
 &lt;p&gt;Shown below are 50 realizations of a Gaussian walk, plotted with $\pm 2.5 \sqrt t$&lt;/p&gt;
 &lt;img alt="static/random_walk_50.png" class="align-right" src="static/random_walk_50.png" /&gt;
@@ -267,7 +274,7 @@ are a simple loop.&lt;/p&gt;
 &lt;p&gt;Adapted from the Statsmodels library is the following function.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;autocorrelation_fast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;assert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
     &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="n"&gt;trans&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fft&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fft&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;acf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fft&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ifft&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trans&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conjugate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trans&lt;/span&gt;&lt;span class="p"&gt;))[:&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
