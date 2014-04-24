@@ -44,66 +44,8 @@
 
                             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/time-series-part-2-ar-arma-arima.html">Time Series: Part 2. AR, ARMA, ARIMA</a></h1> 
+                    <h1 class="entry-title"><a href="/time-series-part-1-an-introduction-to-stationarity.html">Time Series: Part 1. An Introduction to Stationarity</a></h1> 
                     <footer class="post-info">
-        <abbr class="published" title="2013-09-19T00:00:00">
-                Thu 19 September 2013
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="/author/jake-mick.html">Jake Mick</a>
-        </address>
-        <p>In <a href="/category/data.html">data</a>. </p>
-<p>tags: <a href="/tag/time-series.html">time-series</a><a href="/tag/data.html">data</a><a href="/tag/python.html">python</a></p></footer><!-- /.post-info --><div class="section" id="time-series-revisted">
-<h2>Time Series Revisted</h2>
-<p>This is a continuation of a tour of time series as it relates to forecasting.
-In <a class="reference external" href="http://jakemick.github.io/time-series-part-1-an-introduction.html">PartOne</a> we went on to studied stationarity with pretty plots and a random
-number generator. Given knowledge of stationarity we can derive a linear
-model of time series for forecasting.</p>
-</div>
-<div class="section" id="autoregressive-model">
-<h2>Autoregressive Model</h2>
-</div>
-<div class="section" id="partial-autocorrelation">
-<h2>Partial Autocorrelation</h2>
-</div>
-<div class="section" id="autoregressive-moving-average">
-<h2>Autoregressive-Moving Average</h2>
-</div>
-<div class="section" id="autoregressive-integrated-moving-average">
-<h2>Autoregressive-Integrated-Moving Average</h2>
-</div>
-<div class="section" id="akaike-information-criterion">
-<h2>Akaike Information Criterion</h2>
-</div>
-<div class="section" id="condition-numbers">
-<h2>Condition Numbers</h2>
-</div>
-<div class="section" id="box-jenkins">
-<h2>Box Jenkins</h2>
-<img alt="static/random_walk_bin.png" class="align-right" src="static/random_walk_bin.png" />
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-</pre></div>
-<p>-- JakeMick</p>
-</div>
-<p>There are <a href="/time-series-part-2-ar-arma-arima.html#disqus_thread">comments</a>.</p>                </article>
-                            </aside><!-- /#featured -->
-                            <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-                                                
-
-                 
-                        <li><article class="hentry">    
-                <header>
-                    <h1><a href="/time-series-part-1-an-introduction-to-stationarity.html" rel="bookmark"
-                           title="Permalink to Time Series: Part 1. An Introduction to Stationarity">Time Series: Part 1. An Introduction to Stationarity</a></h1>
-                </header>
-                
-                <div class="entry-content">
-                <footer class="post-info">
         <abbr class="published" title="2013-09-08T00:00:00">
                 Sun 08 September 2013
         </abbr>
@@ -112,17 +54,311 @@ model of time series for forecasting.</p>
                 By <a class="url fn" href="/author/jake-mick.html">Jake Mick</a>
         </address>
         <p>In <a href="/category/data.html">data</a>. </p>
-<p>tags: <a href="/tag/time-series.html">time-series</a><a href="/tag/data.html">data</a><a href="/tag/python.html">python</a></p></footer><!-- /.post-info -->                <div class="section" id="problem-setting">
+<p>tags: <a href="/tag/time-series.html">time-series</a><a href="/tag/data.html">data</a><a href="/tag/python.html">python</a></p></footer><!-- /.post-info --><div class="section" id="problem-setting">
 <h2>Problem setting</h2>
 <p>A time series is a ordered set of observations. The observations occur at fixed
 intervals. Many phenomena are thought of as time series. A few obvious examples
 are gross domestic product, the stock price of Apple, electrical current through
-a resistor and Yosemite's Geyser eruptions. Less obviously ...</p></div>
-                <a class="readmore" href="/time-series-part-1-an-introduction-to-stationarity.html">read more</a>
-                <p>There are <a href="/time-series-part-1-an-introduction-to-stationarity.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                            </ol><!-- /#posts-list -->
-                                                    </section><!-- /#content -->
+a resistor and Yosemite's Geyser eruptions. Less obviously, audio and text can
+be thought of as time series.</p>
+</div>
+<div class="section" id="why-i-m-writing-this">
+<h2>Why I'm writing this</h2>
+<p>Recently I've been learning about time series modelling. A lot of literature
+exists on the subject, with varying formality and intended uses. This text
+will start off with time series as it relates to forecasting. With some
+statistics literature, it is not clear how to apply a given concept to data.
+I've included code for this reason. This isn't algorithmic recipes. The
+intent of this document is to gift you with an intuition behind ideas. Basically
+this is a casual time series analysis text. This document is not a treatise on
+Hilbert space. This document is not a collection of copy-paste recipes.</p>
+<p>This is the document I wish google gave me, you may hate it. $\ddot\smile$</p>
+</div>
+<div class="section" id="random-walk-part-one">
+<h2>Random Walk Part One</h2>
+<p>Consider the eponymous coin-flip. $P(tails) = P(heads) = 1/2$. Suppose we kept
+a running tally of heads - tails, over 100,000 coin-flips. One such realization
+of the tally is below.</p>
+<img alt="static/random_walk_bin.png" class="align-right" src="static/random_walk_bin.png" />
+<p>More formally, the coin-flip is $X \sim Bin(1, 0.5)$ and the tally is
+$W_t = \sum\limits_{i=1}^t x_i$</p>
+<p>The underlying process is termed a <strong>random walk</strong>. It is the simplest example,
+as measured by the code golf needed to produce it. A random walk can come
+from any distributions. A realization of a random walk on $X \sim N(0, 1)$ is below.</p>
+<img alt="static/random_walk_norm.png" class="align-right" src="static/random_walk_norm.png" />
+<p>In this introductory text we will only deal with Markov random walks, ones in which
+$W_t$ depends only on $W_{t-1}$. This simplifies the analysis, but be aware that
+the literature on random walks travels very far from this text. Other interesting
+properties can be imbued into a random walk that are outside the scope of this
+text.</p>
+<p>The code used to produce the above plots is below.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="k">def</span> <span class="nf">random_walk_bin</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">walk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Heads - Tails&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Coin-Flipping&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">random_walk_norm</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">walk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">walk</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Normal Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="what-is-a-time-series">
+<h2>What is a Time Series?</h2>
+<p>Stepping back for a moment note that our walk $W$ is indexed by time point $t$.
+It is the case for all time series that $t \in T \subset \mathbb N$. However, if
+$t \in T \not\subset \mathbb N$ then other theory and models are needed. An interesting
+case outside the scope of this discussion arises when $t \in T \subset \mathbb R^2$,
+which is useful for spatial analysis. Models of this class can be useful in
+predict house prices based on latitude and longitude. Spatial analysis is
+distinct from time series by the index vector, not the shape of the data. For
+example, if we have a collection of correlated walks, we would model them by
+multivariate time series methods.</p>
+<p>The examples used within this document are <strong>stochastic processes</strong>, which
+is a formal way of saying that the evolution of a time series is probabilistically
+determined. This contrasts the time evolution of a solution to a differential equation,
+in which our response is deterministic.</p>
+</div>
+<div class="section" id="random-walk-part-two">
+<h2>Random Walk Part Two</h2>
+<p>Random walks are easily studied phenomena. Suppose we have a $W$ on $N(\mu, \sigma^2)$.
+$W_1 \sim N(\mu, \sigma^2)$ and $W_2 \sim N(\mu + \mu, \sigma^2 + \sigma^2)$. In the case
+$\mu = 0, \sigma = 1$ we have $W_2 \sim N(0, 2)$. More generally, for any walk
+with a zero mean, $W_t \sim N(0, t\sigma^2)$.</p>
+<p>We can empiricize these results using the random number generator.</p>
+<p>Shown below are 50 realizations of a Gaussian walk, plotted with $\pm 2.5 \sqrt t$</p>
+<img alt="static/random_walk_50.png" class="align-right" src="static/random_walk_50.png" />
+<p>Shown below are boxplots of 1000 realizations of a 1001 step Gaussian walk</p>
+<img alt="static/random_walk_boxplot.png" class="align-right" src="static/random_walk_boxplot.png" />
+<p>The important realizations are that though the mean value of the walk is 0,
+the variance is a function of time. In the next section we'll learn how to rectify this
+behavior in the random walk case.</p>
+<p>The code for the above plots is below.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">random_walk_dist</span><span class="p">():</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;50 Random Walks on a Normal Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)),</span> <span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)),</span> <span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Random Walk of Normal Distribution&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">w</span><span class="p">[:,</span> <span class="p">::</span><span class="mi">100</span><span class="p">],</span> <span class="n">bootstrap</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1001</span><span class="p">)[::</span><span class="mi">100</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="differencing">
+<h2>Differencing</h2>
+<p>Define the backshift function $B(x_t) = x_{t-1}$. Define the difference function
+$\Delta x_t = (1 - B) x_t = x_t - x_{t-1}$. Repeated application follows
+the rules of polynomial expansion $\Delta^2 x_t = (1 - B)^2 x_t = x_t - 2  x_{t-1} + x_{t-2}$</p>
+<p>In the case of our Gaussian random walk, applying $\Delta$ to $W$ returns the
+series to the original values. In Python the following will print True.</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">w</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+</pre></div>
+<p>Though toyish in appearance, differencing is a fundamental preprocessing step
+for many applications of time series analysis. Suppose we defined a time series
+as $Q_t = Q_{t-1} + \mu + \epsilon$, where $Q_0 = 0$, $\mu$ is constant and
+$\epsilon \sim N(0, 1)$. By induction it can be shown that $\Delta Q$ has a constant
+mean and a bounded variance. These properties, along with third property
+introduced in the following section simplify time series analysis.</p>
+<p>Here is a realization of the above model.</p>
+<img alt="static/const_mean.png" class="align-right" src="static/const_mean.png" />
+<p>Here is the same model once differenced.</p>
+<img alt="static/differed_const_mean.png" class="align-right" src="static/differed_const_mean.png" />
+<p>A simple way to implement differencing in python is below.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">difference</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="n">power</span>
+
+    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">difference</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">power</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">difference</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">difference</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">difference</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">difference</span>
+
+    <span class="k">def</span> <span class="nf">inv_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">power</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+<p>Ignoring numerical instabilities for higher powers, the following code prints
+True for any x of shape $(n,)$ for any power.</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">difference</span><span class="p">(</span><span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">undiff_diff_x</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">inv_transform</span><span class="p">(</span><span class="n">diff_x</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">undiff_diff_x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+</pre></div>
+<p>The following code produces the above plot.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">differ_example</span><span class="p">():</span>
+    <span class="c"># Generate time series model</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="n">const_drift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">l</span><span class="p">))</span>
+    <span class="n">rw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">rw</span> <span class="o">+</span> <span class="n">const_drift</span>
+    <span class="c"># Plot the time series</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Walk with constant drift&quot;</span><span class="p">)</span>
+    <span class="c"># Plot the once differenced time series</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">model1</span> <span class="o">=</span> <span class="n">difference</span><span class="p">(</span><span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">res1</span> <span class="o">=</span> <span class="n">model1</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res1</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Once Differenced Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Delta&#39;d Walk&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="autocorrelation">
+<h2>Autocorrelation</h2>
+<p>Intuitively, we can think of the autocorrelation function of a well-behaved
+time series as mapping a univariate time series to the correlation between
+lags of the time series.</p>
+<p>Define the autocorrelation function
+$\gamma(s, r) = \frac{E[(X_s - EX_s)(X_r - EX_r)]}{\sigma_s \sigma_r}$
+where $ s, r \in T \subset \mathbb N$.</p>
+<p>Well-behaved is precisely defined.</p>
+<p>If $EX_r = EX_s = \mu$ and $\sigma_r = \sigma_s = \sigma$ then the above
+equation reduces to $\gamma(s, r) = \frac{E[(x_s - \mu)(x_r - \mu)]}{\sigma^2}$.</p>
+<p>Suppose that $\gamma(s,r) = \gamma(s+t,r+t)$.</p>
+<p>This is equivalent to saying $\gamma(s, r) = \gamma(s-r, 0)$, which can be
+rewritten as $\gamma(h) = \frac{E[(x_{t+h} - \mu)(x_t - \mu)]}{\sigma^2}$.</p>
+<p>In English this means that our autocorrelation function is dependent only on the lag.</p>
+<p>Where we might see noise the autocorrelation function captures hidden structure.</p>
+<p>Consider the following sequence of random numbers.</p>
+<img alt="static/autocorr_notrend.png" class="align-right" src="static/autocorr_notrend.png" />
+<p>It has a pretty lame autocorrelation function.</p>
+<img alt="static/autocorr_autocorr_notrend.png" class="align-right" src="static/autocorr_autocorr_notrend.png" />
+<p>Consider an autocorrelated sequence.</p>
+<img alt="static/autocorr_trend.png" class="align-right" src="static/autocorr_trend.png" />
+<p>At face value, this sequence looks like the random numbers above. When we plot
+the autocorrelation function though, something interesting happens.</p>
+<img alt="static/autocorr_autocorr_trend.png" class="align-right" src="static/autocorr_autocorr_trend.png" />
+<p>Wow! Where we saw a useless plot, the autocorrelation function sees a pattern.
+Later on we'll exploit such patterns.</p>
+<p>Several methods exist for the computation. Some are based on the FFT, while others
+are a simple loop.</p>
+<p>Adapted from the Pandas library is the following function.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorrelation_slow</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">corr</span><span class="p">(</span><span class="n">lag</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">x</span><span class="p">[:</span><span class="n">n</span> <span class="o">-</span> <span class="n">lag</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">lag</span><span class="p">:]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">var</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+<p>Adapted from the Statsmodels library is the following function.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorrelation_fast</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">-=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">acf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">trans</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">trans</span><span class="p">))[:</span><span class="n">l</span><span class="p">]</span>
+    <span class="n">acf</span> <span class="o">/=</span> <span class="n">acf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">acf</span><span class="p">)</span>
+</pre></div>
+<p>You may be thinking, &quot;oh shit, a fourier transform.&quot; Or you may be thinking
+&quot;Oh shit! A fourier transform.&quot; So far, our analysis has been relegated to
+the time domain, but the frequency domain plays a central role to time series
+analysis. There's a lot of interesting math that arises in time series analysis.
+You'll have to read me prattle on for a bit before you see it.</p>
+<p>The code used to produce the plots in the above section.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">autocorr_example</span><span class="p">():</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123456</span><span class="p">)</span>
+    <span class="c"># Make autocorrelated data</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">x_auto</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="o">.</span><span class="mi">8</span> <span class="o">*</span> <span class="n">z</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c"># Make data that isn&#39;t autocorrelated</span>
+    <span class="n">x_not</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="c"># Plot both series</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_auto</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Realization of Autocorrelated Function&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_not</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Fixed time intervals&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Value&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Realization of Random Values&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="c"># Plot autocorrelation of both</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">autocorrelation_fast</span><span class="p">(</span><span class="n">x_auto</span><span class="p">),</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Lag&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Correlation&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Autocorrelation function of autocorrelated function&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">autocorrelation_fast</span><span class="p">(</span><span class="n">x_not</span><span class="p">),</span> <span class="s">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Lag&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Correlation&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Autocorrelation function of random values&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="stationarity">
+<h2>Stationarity</h2>
+<p>Stationarity is the set of assumptions required for classic time series models.</p>
+<ol class="lowerroman simple">
+<li>$E|X_t|^2 &lt; \infty, \quad \forall t \in \mathbb N$</li>
+<li>$EX_t = \mu, \quad \forall t \in \mathbb N$</li>
+<li>$\gamma(s, r) = \gamma(s + t, r + t), \quad \forall r,s,t \in \mathbb N$</li>
+</ol>
+<p>In English</p>
+<ol class="lowerroman simple">
+<li>The time series doesn't blow up.</li>
+<li>The time series has no drift.</li>
+<li>The correlation between values is dependent only on the lag between them.</li>
+</ol>
+<p>These assumptions are known as second-order stationarity, or weak stationarity.
+You can often achieve stationarity by (repeated) differencing of your time
+series.</p>
+<p>-- JakeMick</p>
+</div>
+<p>There are <a href="/time-series-part-1-an-introduction-to-stationarity.html#disqus_thread">comments</a>.</p>                </article>
+                                                                </aside><!-- /#featured -->
+                                                </ol><!-- /#posts-list -->
+                        </section><!-- /#content -->
                     <section id="extras" class="body">
                 <div class="blogroll">
             <h2>blogs I like</h2>
